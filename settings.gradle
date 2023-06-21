@@ -1,0 +1,6 @@
+rootProject.name = 'shop'
+include 'product'
+include 'order'
+include 'User'
+include 'front-end'
+
