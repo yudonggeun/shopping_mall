@@ -7,7 +7,9 @@ import java.util.Set;
 
 @Data
 public class ProductListConditionRequest {
-    private int page;
-    private int size;
-    private Set<ProductSellStatus> status;
+    private int page = 0;
+    private int size = 10;
+    private Set<ProductSellStatus> status = defaultStatusSet;
+
+    private static Set<ProductSellStatus> defaultStatusSet = Set.of(ProductSellStatus.SELL);
 }
