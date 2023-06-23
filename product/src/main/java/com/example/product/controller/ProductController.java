@@ -4,7 +4,7 @@ import com.example.product.dto.ProductDto;
 import com.example.product.dto.request.ProductCreateRequest;
 import com.example.product.dto.request.ProductUpdateRequest;
 import com.example.product.service.ProductService;
-import common.ApiResponse;
+import common.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

@@ -4,7 +4,7 @@ import com.example.product.dto.ProductDto;
 import com.example.product.dto.request.ProductCreateRequest;
 import com.example.product.dto.request.ProductUpdateRequest;
 import com.example.product.status.ProductSellStatus;
-import common.ApiResponse;
+import common.response.ApiResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
