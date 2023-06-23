@@ -1,4 +1,4 @@
-package common;
+package common.response;
 
 import lombok.AccessLevel;
 import lombok.Builder;
