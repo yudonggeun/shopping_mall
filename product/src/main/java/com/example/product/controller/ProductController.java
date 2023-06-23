@@ -23,36 +23,32 @@ public class ProductController {
     private final ProductService service;
 
     @GetMapping("/list")
-    public ResponseEntity<ApiResponse> getProductList(ProductListConditionRequest condition){
-
-        List<ProductDto> data = service.getList(condition);
-        return ApiResponse.responseEntity(data, HttpStatus.OK, "success");
+    public ResponseEntity<ApiResponse> getProductList(ProductListConditionRequest condition) {
+        List<ProductDto> productDtos = service.getList(condition);
+        return ApiResponse.responseEntity(productDtos, HttpStatus.OK, "success");
     }
 
     @GetMapping("/detail")
-    public ResponseEntity<ApiResponse> getProductDetail(@PathVariable("code") Long code){
+    public ResponseEntity<ApiResponse> getProductDetail(@PathVariable("code") Long code) {
         ProductDto productDto = service.get(code);
         return ApiResponse.responseEntity(productDto, HttpStatus.OK, "success");
     }
 
     @PutMapping("/detail")
-    public ResponseEntity<ApiResponse> createProduct(@RequestBody ProductCreateRequest request){
+    public ResponseEntity<ApiResponse> createProduct(@RequestBody ProductCreateRequest request) {
         ProductDto productDto = service.create(request);
         return ApiResponse.responseEntity(productDto, HttpStatus.OK, "success");
     }
 
     @PostMapping("/detail")
-    public ResponseEntity<ApiResponse> updateProduct(@RequestBody ProductUpdateRequest request){
+    public ResponseEntity<ApiResponse> updateProduct(@RequestBody ProductUpdateRequest request) {
         ProductDto productDto = service.update(request);
         return ApiResponse.responseEntity(productDto, HttpStatus.OK, "success");
     }
 
     @DeleteMapping("/detail")
-    public ResponseEntity<ApiResponse> deleteProduct(@PathVariable("code") Long code){
-        boolean isDelete = service.delete(code);
-        if(isDelete)
-            return ApiResponse.responseEntity(null, HttpStatus.OK, "success");
-        else
-            return ApiResponse.responseEntity(null, HttpStatus.NOT_FOUND, "not found the code in database");
+    public ResponseEntity<ApiResponse> deleteProduct(@PathVariable("code") Long code) {
+        service.delete(code);
+        return ApiResponse.responseEntity(null, HttpStatus.OK, "success");
     }
 }

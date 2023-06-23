@@ -16,5 +16,5 @@ public interface ProductService {
 
     ProductDto update(ProductUpdateRequest request);
 
-    boolean delete(Long code);
+    void delete(Long code);
 }
