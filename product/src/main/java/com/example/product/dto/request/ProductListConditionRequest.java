@@ -1,15 +1,19 @@
 package com.example.product.dto.request;
 
-import com.example.product.status.ProductSellStatus;
 import lombok.Data;
-
-import java.util.Set;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 @Data
 public class ProductListConditionRequest {
-    private int page = 0;
-    private int size = 10;
-    private Set<ProductSellStatus> status = defaultStatusSet;
 
-    private static Set<ProductSellStatus> defaultStatusSet = Set.of(ProductSellStatus.SELL);
+    public static final ProductListConditionRequest DEFAULT = new ProductListConditionRequest();
+
+    private int pageIndex = 0;
+    private int pageSize = 10;
+    private ProductCondition condition = ProductCondition.DEFAULT;
+
+    public Pageable getPageable(){
+        return PageRequest.of(pageIndex, pageSize);
+    }
 }
