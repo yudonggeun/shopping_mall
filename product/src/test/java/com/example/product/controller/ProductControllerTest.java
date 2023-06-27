@@ -9,7 +9,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import com.example.product.dto.request.ProductListConditionRequest;
@@ -20,7 +24,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 
-@WebMvcTest
+@SpringBootTest
 class ProductControllerTest {
 
     @MockBean
@@ -32,7 +36,7 @@ class ProductControllerTest {
     @DisplayName("상품 목록 조회")
     @Test
     void getProductList() {
-        List expectedResultData = List.of();
+        Page<ProductDto> expectedResultData = new PageImpl<>(List.of(), PageRequest.of(0, 1), 0);
         int expectedHttpCode = HttpStatus.OK.value();
         //given
         given(service.getList(any())).willReturn(expectedResultData);

@@ -4,11 +4,11 @@ import com.example.product.dto.request.ProductUpdateRequest;
 import com.example.product.dto.ProductDto;
 import com.example.product.dto.request.ProductCreateRequest;
 import com.example.product.dto.request.ProductListConditionRequest;
+import org.springframework.data.domain.Page;
 
-import java.util.List;
 
 public interface ProductService {
-    List<ProductDto> getList(ProductListConditionRequest condition);
+    Page<ProductDto> getList(ProductListConditionRequest condition);
 
     ProductDto get(Long code);
 

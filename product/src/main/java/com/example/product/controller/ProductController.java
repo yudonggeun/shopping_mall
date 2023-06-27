@@ -7,6 +7,7 @@ import com.example.product.service.ProductService;
 import common.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +25,7 @@ public class ProductController {
 
     @GetMapping("/list")
     public ResponseEntity<ApiResponse> getProductList(ProductListConditionRequest condition) {
-        List<ProductDto> productDtos = service.getList(condition);
+        Page<ProductDto> productDtos = service.getList(condition);
         return ApiResponse.responseEntity(productDtos, HttpStatus.OK, "success");
     }
 

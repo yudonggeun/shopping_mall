@@ -7,8 +7,8 @@ import lombok.Data;
 public class ProductUpdateRequest {
     private Long code;
     private String name;
-    private int price;
-    private int stock;
+    private Integer price;
+    private Integer stock;
     private String detail;
     private ProductSellStatus status;
 }

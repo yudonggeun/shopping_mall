@@ -28,16 +28,18 @@ public class QuerydslProductRepository {
         table = QProduct.product;
     }
 
-    public Page<Product> getList(ProductListConditionRequest listCondition) {
+    public Page<Product> getList(ProductListConditionRequest request) {
 
-        if(listCondition == null) listCondition = ProductListConditionRequest.DEFAULT;
+        if(request == null) request = ProductListConditionRequest.DEFAULT;
+        ProductCondition condition = request.getCondition();
 
-        Pageable pageable = listCondition.getPageable();
+        Pageable pageable = request.getPageable();
         List<Product> result = query.selectFrom(table)
+                .where(table.status.in(condition.status()))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
-        return new PageImpl<>(result, pageable, totalCount(listCondition.getCondition()));
+        return new PageImpl<>(result, pageable, totalCount(condition));
     }
 
     public long totalCount(ProductCondition condition) {
