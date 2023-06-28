@@ -28,4 +28,8 @@ public class ApiResponse {
 
         return ResponseEntity.status(code.value()).body(result);
     }
+
+    public static ResponseEntity<ApiResponse> ok(Object data){
+        return ApiResponse.responseEntity(data, HttpStatus.OK, "success");
+    }
 }
