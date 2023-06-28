@@ -1,11 +1,11 @@
 package com.example.product.repository;
 
 import com.example.product.domain.Product;
-import com.example.product.domain.QProduct;
+import com.example.product.dto.ProductDto;
 import com.example.product.dto.request.ProductCondition;
 import com.example.product.dto.request.ProductListConditionRequest;
-import com.example.product.status.ProductSellStatus;
-import com.querydsl.jpa.impl.JPAQueryFactory;
+
+import com.example.product.service.ProductService;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -13,12 +13,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 import static com.example.product.status.ProductSellStatus.*;
@@ -35,17 +32,15 @@ class QuerydslProductRepositoryTest {
 
     @BeforeEach
     void init_product_table_data() {
-        // type sell product * 10
         for (int i = 0; i < 10; i++) {
             Product product = Product.builder().name("selling product" + i)
                     .detail("detail data" + i)
-                    .stock(i)
+                    .stock(i+1)
                     .price(i * 1000)
                     .status(SELL)
                     .build();
             em.persist(product);
         }
-        // type hide product * 10
         for (int i = 0; i < 10; i++) {
             Product product = Product.builder().name("hide product" + i)
                     .detail("detail data" + i)
@@ -55,11 +50,10 @@ class QuerydslProductRepositoryTest {
                     .build();
             em.persist(product);
         }
-        // type sold out product * 10
         for (int i = 0; i < 10; i++) {
             Product product = Product.builder().name("sold out product" + i)
                     .detail("detail data" + i)
-                    .stock(i)
+                    .stock(0)
                     .price(i * 1000)
                     .status(SOLD_OUT)
                     .build();

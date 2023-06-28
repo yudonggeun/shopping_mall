@@ -3,11 +3,13 @@ package com.example.product.dto;
 import com.example.product.status.ProductSellStatus;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 
 @Data
 @EqualsAndHashCode
+@ToString
 public class ProductDto {
     private Long code;
     private String name;

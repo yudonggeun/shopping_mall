@@ -11,4 +11,8 @@ public class ProductUpdateRequest {
     private Integer stock;
     private String detail;
     private ProductSellStatus status;
+
+    public ProductUpdateRequest(Long code) {
+        this.code = code;
+    }
 }

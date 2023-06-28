@@ -7,7 +7,6 @@ import com.example.product.dto.request.ProductListConditionRequest;
 import com.example.product.dto.request.ProductUpdateRequest;
 import com.example.product.repository.ProductRepository;
 import com.example.product.repository.QuerydslProductRepository;
-import com.example.product.status.ProductSellStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -16,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static com.example.product.status.ProductSellStatus.*;
 import static java.util.stream.Collectors.*;
 
 @Service
@@ -75,7 +73,6 @@ public class ProductServiceImpl implements ProductService{
 
     @Override
     public void delete(Long code) {
-        //TODO test create
         crudRepository.deleteById(code);
     }
 }

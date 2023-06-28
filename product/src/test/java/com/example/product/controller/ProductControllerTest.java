@@ -73,7 +73,7 @@ class ProductControllerTest {
         //given
         given(service.create(any())).willReturn(expectedProductDto);
         //when
-        ResponseEntity<ApiResponse> response = controller.createProduct(new ProductCreateRequest());
+        ResponseEntity<ApiResponse> response = controller.createProduct(null);
         int responseHttpCode = response.getStatusCode().value();
         Object responseData = response.getBody().getData();
         //then
@@ -89,7 +89,7 @@ class ProductControllerTest {
         //given
         given(service.update(any())).willReturn(expectedProductDto);
         //when
-        ResponseEntity<ApiResponse> response = controller.updateProduct(new ProductUpdateRequest());
+        ResponseEntity<ApiResponse> response = controller.updateProduct(null);
         int responseHttpCode = response.getStatusCode().value();
         Object responseData = response.getBody().getData();
         //then

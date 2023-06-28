@@ -8,15 +8,12 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import lombok.*;
 
-import java.awt.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import static com.example.product.status.ProductSellStatus.*;
 
 @Entity
 @Getter
-@EqualsAndHashCode
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Product extends BaseEntity {
     @Column(nullable = false)
@@ -32,21 +29,16 @@ public class Product extends BaseEntity {
     @Builder
     private Product(String name, Integer price, Integer stock, String detail, ProductSellStatus status) {
         //check parameter constrain
-        if (name == null || price == null || stock == null || status == null) {
+        if (name == null || price == null || stock == null || status == null)
             throw new IllegalArgumentException("product must have name, price, stock, status");
-        }
-        if (price < 0) {
-            throw new IllegalArgumentException("price(int) must be bigger than -1");
-        }
-        if (stock < 0) {
-            throw new IllegalArgumentException("stock(int) must be bigger than -1");
-        }
 
-        this.name = name;
-        this.price = price;
-        this.stock = stock;
-        this.detail = detail;
-        this.status = status;
+        setName(name);
+        setPrice(price);
+        setStock(stock);
+        setDetail(detail);
+        setStatus(status);
+
+        checkConsistency();
     }
 
     /**
@@ -55,11 +47,13 @@ public class Product extends BaseEntity {
     @Deprecated
     public Product(Long id, LocalDateTime createdAt, String name, Integer price, Integer stock, String detail, ProductSellStatus status) {
         super(id, createdAt, createdAt);
-        this.name = name;
-        this.price = price;
-        this.stock = stock;
-        this.detail = detail;
-        this.status = status;
+        setName(name);
+        setPrice(price);
+        setStock(stock);
+        setDetail(detail);
+        setStatus(status);
+
+        checkConsistency();
     }
 
     public ProductDto toProductDto() {
@@ -77,15 +71,44 @@ public class Product extends BaseEntity {
     }
 
     public void update(ProductUpdateRequest request) {
-        if (!request.getCode().equals(getId())) {
+        if (!request.getCode().equals(getId()))
             throw new IllegalArgumentException("상품 코드는 반드시 상품의 아이디와 같아야 합니다.");
-        }
-        if (request.getName() != null) this.name = request.getName();
-        if (request.getPrice() != null) this.price = request.getPrice();
-        if (request.getStock() != null) this.stock = request.getStock();
-        if (request.getDetail() != null) this.detail = request.getDetail();
-        if (request.getStatus() != null) this.status = request.getStatus();
 
-        if (stock == 0 && status.equals(SELL)) this.status = SOLD_OUT;
+        setName(request.getName());
+        setPrice(request.getPrice());
+        setDetail(request.getDetail());
+        setStatus(request.getStatus());
+        setStock(request.getStock());
+
+        checkConsistency();
+    }
+
+    private void checkConsistency() {
+        if (stock == 0 && status.equals(SELL)) throw new IllegalArgumentException("if stock is 0, status must not be SELL");
+        if (stock != 0 && status.equals(SOLD_OUT)) throw new IllegalArgumentException("if stock is not 0, status must not be SOLD_OUT");
+    }
+
+    private void setName(String name) {
+        if (name != null) this.name = name;
+    }
+
+    private void setPrice(Integer price) {
+        if (price == null) return;
+        if (price < 0) throw new IllegalArgumentException("price(int) must be bigger than -1");
+        this.price = price;
+    }
+
+    private void setStock(Integer stock) {
+        if (stock == null) return;
+        if (stock < 0) throw new IllegalArgumentException("stock(int) must be bigger than -1");
+        this.stock = stock;
+    }
+
+    private void setDetail(String detail) {
+        if (detail != null) this.detail = detail;
+    }
+
+    private void setStatus(ProductSellStatus status) {
+        if (status != null) this.status = status;
     }
 }
