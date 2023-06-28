@@ -1,101 +1,162 @@
 package com.example.product.controller;
 
 import com.example.product.dto.ProductDto;
-import common.response.ApiResponse;
+import com.example.product.dto.request.ProductCreateRequest;
+import com.example.product.dto.request.ProductUpdateRequest;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import com.example.product.dto.request.ProductListConditionRequest;
+import org.springframework.http.MediaType;
 import com.example.product.service.ProductService;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.*;
+import static com.example.product.status.ProductSellStatus.*;
 import static org.mockito.BDDMockito.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
+@AutoConfigureMockMvc
 class ProductControllerTest {
 
     @MockBean
     ProductService service;
 
     @Autowired
+    MockMvc mockMvc;
+
+    @Autowired
+    ObjectMapper objectMapper;
+
+    @Autowired
     ProductController controller;
 
     @DisplayName("상품 목록 조회")
     @Test
-    void getProductList() {
-        //given
-        Page<ProductDto> expectedResultData = new PageImpl<>(List.of(), PageRequest.of(0, 1), 0);
-        int expectedHttpCode = HttpStatus.OK.value();
-        given(service.getList(any())).willReturn(expectedResultData);
-        //when
-        ResponseEntity<ApiResponse> response = controller.getProductList(new ProductListConditionRequest());
-        //then
-        checkResponseEntity(expectedResultData, expectedHttpCode, response);
+    void getProductList() throws Exception {
+        //given //when //then
+        mockMvc.perform(MockMvcRequestBuilders.get("/list"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value("OK"))
+                .andExpect(jsonPath("$.message").value("success"));
     }
 
     @DisplayName("상품 상세 정보 조회하기")
     @Test
-    void getProductDetail() {
-        int expectedHttpCode = HttpStatus.OK.value();
-        ProductDto expectedProductDto = new ProductDto();
+    void getProductDetail() throws Exception {
         //given
-        given(service.get(any())).willReturn(expectedProductDto);
-        //when
-        ResponseEntity<ApiResponse> response = controller.getProductDetail(100l);
-        //then
-        checkResponseEntity(expectedProductDto, expectedHttpCode, response);
+        ProductDto result = new ProductDto();
+        result.setCode(100l);
+        result.setDetail("detail");
+        result.setStatus(SELL);
+        result.setStock(100);
+        result.setPrice(1000);
+        result.setName("product");
+
+        given(service.get(any())).willReturn(result);
+        //when //then
+        mockMvc.perform(MockMvcRequestBuilders.get("/detail?code=100"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value("OK"))
+                .andExpect(jsonPath("$.message").value("success"))
+                .andExpect(jsonPath("$.data.code").value(100l))
+                .andExpect(jsonPath("$.data.detail").value("detail"))
+                .andExpect(jsonPath("$.data.status").value(SELL.toString()))
+                .andExpect(jsonPath("$.data.price").value(1000))
+                .andExpect(jsonPath("$.data.stock").value(100))
+                .andExpect(jsonPath("$.data.name").value("product"));
     }
 
     @DisplayName("상품 생성 요청")
     @Test
-    void createProduct() {
-        int expectedHttpCode = HttpStatus.OK.value();
-        ProductDto expectedProductDto = new ProductDto();
+    void createProduct() throws Exception {
         //given
-        given(service.create(any())).willReturn(expectedProductDto);
-        //when
-        ResponseEntity<ApiResponse> response = controller.createProduct(null);
-        //then
-        checkResponseEntity(expectedProductDto, expectedHttpCode, response);
+        ProductCreateRequest request = new ProductCreateRequest();
+        request.setDetail("detail");
+        request.setStatus(SELL);
+        request.setStock(100);
+        request.setPrice(1000);
+        request.setName("product");
+
+        ProductDto result = new ProductDto();
+        result.setCode(100l);
+        result.setDetail("detail");
+        result.setStatus(SELL);
+        result.setStock(100);
+        result.setPrice(1000);
+        result.setName("product");
+
+        given(service.create(any())).willReturn(result);
+        //when //then
+        mockMvc.perform(MockMvcRequestBuilders.put("/detail")
+                        .content(objectMapper.writeValueAsString(request))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value("OK"))
+                .andExpect(jsonPath("$.message").value("success"))
+                .andExpect(jsonPath("$.data.code").value(100l))
+                .andExpect(jsonPath("$.data.detail").value("detail"))
+                .andExpect(jsonPath("$.data.status").value(SELL.toString()))
+                .andExpect(jsonPath("$.data.price").value(1000))
+                .andExpect(jsonPath("$.data.stock").value(100))
+                .andExpect(jsonPath("$.data.name").value("product"));
     }
 
     @DisplayName("상품 수정 요청")
     @Test
-    void updateProduct() {
-        int expectedHttpCode = HttpStatus.OK.value();
-        ProductDto expectedProductDto = new ProductDto();
+    void updateProduct() throws Exception {
         //given
-        given(service.update(any())).willReturn(expectedProductDto);
-        //when
-        ResponseEntity<ApiResponse> response = controller.updateProduct(null);
-        //then
-        checkResponseEntity(expectedProductDto, expectedHttpCode, response);
+        ProductUpdateRequest request = new ProductUpdateRequest();
+
+        request.setCode(100l);
+        request.setDetail("detail");
+        request.setStatus(SELL);
+        request.setStock(100);
+        request.setPrice(1000);
+        request.setName("product");
+
+        ProductDto result = new ProductDto();
+        result.setCode(100l);
+        result.setDetail("detail");
+        result.setStatus(SELL);
+        result.setStock(100);
+        result.setPrice(1000);
+        result.setName("product");
+
+        given(service.update(any())).willReturn(result);
+        //when //then
+        mockMvc.perform(MockMvcRequestBuilders.post("/detail")
+                        .content(objectMapper.writeValueAsString(request))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value("OK"))
+                .andExpect(jsonPath("$.message").value("success"))
+                .andExpect(jsonPath("$.data.code").value(100l))
+                .andExpect(jsonPath("$.data.detail").value("detail"))
+                .andExpect(jsonPath("$.data.status").value(SELL.toString()))
+                .andExpect(jsonPath("$.data.price").value(1000))
+                .andExpect(jsonPath("$.data.stock").value(100))
+                .andExpect(jsonPath("$.data.name").value("product"));
     }
 
     @DisplayName("상품 삭제 요청 성공시에는 상태 코드 OK(200) 이고 success 메시지를 반환한다.")
     @Test
-    void deleteProduct() {
+    void deleteProduct() throws Exception {
         //given //when
-        ResponseEntity<ApiResponse> response = controller.deleteProduct(100l);
+        Long code = 100l;
         //then
-        assertThat(response.getStatusCode().value()).isEqualTo(HttpStatus.OK.value());
-        assertThat(response.getBody().getMessage()).isEqualTo("success");
-    }
-
-    private void checkResponseEntity(Object expectedData, int expectedHttpCode, ResponseEntity<ApiResponse> response) {
-        int httpStatusCode = response.getStatusCode().value();
-        assertThat(httpStatusCode).isEqualTo(expectedHttpCode);
-
-        Object responseData = response.getBody().getData();
-        assertThat(responseData).isEqualTo(expectedData);
+        mockMvc.perform(MockMvcRequestBuilders.delete("/detail?code=" + code))
+                .andDo(print())
+                .andExpect(jsonPath("$.code").value("OK"))
+                .andExpect(jsonPath("$.message").value("success"));
     }
 }

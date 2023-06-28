@@ -30,7 +30,7 @@ public class ProductController {
     }
 
     @GetMapping("/detail")
-    public ResponseEntity<ApiResponse> getProductDetail(@PathVariable("code") Long code) {
+    public ResponseEntity<ApiResponse> getProductDetail(@RequestParam("code") Long code) {
         ProductDto productDto = service.get(code);
         return ApiResponse.responseEntity(productDto, HttpStatus.OK, "success");
     }
@@ -48,7 +48,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/detail")
-    public ResponseEntity<ApiResponse> deleteProduct(@PathVariable("code") Long code) {
+    public ResponseEntity<ApiResponse> deleteProduct(@RequestParam("code") Long code) {
         service.delete(code);
         return ApiResponse.responseEntity(null, HttpStatus.OK, "success");
     }
