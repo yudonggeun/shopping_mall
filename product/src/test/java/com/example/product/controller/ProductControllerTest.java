@@ -1,14 +1,10 @@
 package com.example.product.controller;
 
 import com.example.product.dto.ProductDto;
-import com.example.product.dto.request.ProductCreateRequest;
-import com.example.product.dto.request.ProductUpdateRequest;
-import com.example.product.status.ProductSellStatus;
 import common.response.ApiResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
@@ -36,17 +32,14 @@ class ProductControllerTest {
     @DisplayName("상품 목록 조회")
     @Test
     void getProductList() {
+        //given
         Page<ProductDto> expectedResultData = new PageImpl<>(List.of(), PageRequest.of(0, 1), 0);
         int expectedHttpCode = HttpStatus.OK.value();
-        //given
         given(service.getList(any())).willReturn(expectedResultData);
         //when
         ResponseEntity<ApiResponse> response = controller.getProductList(new ProductListConditionRequest());
-        int httpStatusCode = response.getStatusCode().value();
-        Object responseData = response.getBody().getData();
         //then
-        assertThat(httpStatusCode).isEqualTo(expectedHttpCode);
-        assertThat(responseData).isEqualTo(expectedResultData);
+        checkResponseEntity(expectedResultData, expectedHttpCode, response);
     }
 
     @DisplayName("상품 상세 정보 조회하기")
@@ -58,11 +51,8 @@ class ProductControllerTest {
         given(service.get(any())).willReturn(expectedProductDto);
         //when
         ResponseEntity<ApiResponse> response = controller.getProductDetail(100l);
-        int responseHttpCode = response.getStatusCode().value();
-        Object responseData = response.getBody().getData();
         //then
-        assertThat(responseHttpCode).isEqualTo(expectedHttpCode);
-        assertThat(responseData).isEqualTo(expectedProductDto);
+        checkResponseEntity(expectedProductDto, expectedHttpCode, response);
     }
 
     @DisplayName("상품 생성 요청")
@@ -74,11 +64,8 @@ class ProductControllerTest {
         given(service.create(any())).willReturn(expectedProductDto);
         //when
         ResponseEntity<ApiResponse> response = controller.createProduct(null);
-        int responseHttpCode = response.getStatusCode().value();
-        Object responseData = response.getBody().getData();
         //then
-        assertThat(responseHttpCode).isEqualTo(expectedHttpCode);
-        assertThat(responseData).isEqualTo(expectedProductDto);
+        checkResponseEntity(expectedProductDto, expectedHttpCode, response);
     }
 
     @DisplayName("상품 수정 요청")
@@ -90,11 +77,8 @@ class ProductControllerTest {
         given(service.update(any())).willReturn(expectedProductDto);
         //when
         ResponseEntity<ApiResponse> response = controller.updateProduct(null);
-        int responseHttpCode = response.getStatusCode().value();
-        Object responseData = response.getBody().getData();
         //then
-        assertThat(responseHttpCode).isEqualTo(expectedHttpCode);
-        assertThat(responseData).isEqualTo(expectedProductDto);
+        checkResponseEntity(expectedProductDto, expectedHttpCode, response);
     }
 
     @DisplayName("상품 삭제 요청 성공시에는 상태 코드 OK(200) 이고 success 메시지를 반환한다.")
@@ -105,5 +89,13 @@ class ProductControllerTest {
         //then
         assertThat(response.getStatusCode().value()).isEqualTo(HttpStatus.OK.value());
         assertThat(response.getBody().getMessage()).isEqualTo("success");
+    }
+
+    private void checkResponseEntity(Object expectedData, int expectedHttpCode, ResponseEntity<ApiResponse> response) {
+        int httpStatusCode = response.getStatusCode().value();
+        assertThat(httpStatusCode).isEqualTo(expectedHttpCode);
+
+        Object responseData = response.getBody().getData();
+        assertThat(responseData).isEqualTo(expectedData);
     }
 }
