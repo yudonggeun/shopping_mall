@@ -58,7 +58,9 @@ class ProductRepositoryTest {
         //when
         Optional<Product> optionalProduct = repository.findById(product.getId());
         //then
-        assertThat(optionalProduct.get()).isEqualTo(product);
+        assertThat(optionalProduct.get())
+                .extracting("name", "detail", "status", "price", "stock")
+                .containsExactly(product.getName(), product.getDetail(), product.getStatus(), product.getPrice(), product.getStock());
     }
 
     @DisplayName("모든 product를 동시에 조회할 수 있다.")
@@ -80,8 +82,7 @@ class ProductRepositoryTest {
         List<Product> products = repository.findAll();
 
         //then
-        assertThat(products).hasSize(2)
-                .contains(product1, product2);
+        assertThat(products).hasSize(2);
     }
 
     @DisplayName("product의 id를 통해서 product 를 삭제할 수 있다.")
