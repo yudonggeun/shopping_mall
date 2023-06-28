@@ -49,6 +49,12 @@ project(':common') {
     bootJar { enabled = false }
     jar { enabled = false }
 }
+
+project(':user') {
+    dependencies {
+        implementation project(':common')
+    }
+}
 project(':order') {
     dependencies {
         implementation project(':common')

@@ -1,7 +1,7 @@
 rootProject.name = 'shop'
 include 'product'
 include 'order'
-include 'User'
+include 'user'
 include 'front-end'
 include 'common'
 
