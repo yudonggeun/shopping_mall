@@ -13,8 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.example.product.dto.request.ProductListConditionRequest;
 
-import java.util.List;
-
 @RequestMapping
 @RestController
 @Slf4j

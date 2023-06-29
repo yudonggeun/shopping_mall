@@ -1,6 +1,5 @@
 package com.user.api;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.user.dto.UserDto;
 import com.user.dto.request.UserCreateRequest;
@@ -14,7 +13,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -27,7 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class ApiControllerTest {
+class ApiTest {
 
     @Autowired
     MockMvc mockMvc;
@@ -35,6 +33,18 @@ class ApiControllerTest {
     ObjectMapper objectMapper;
     @MockBean
     UserService service;
+
+    //todo
+    @DisplayName("secret of a jwt token must be same")
+    @Test
+    void create() {
+        //given
+
+        //when
+
+        //then
+        throw new RuntimeException();
+    }
 
     @DisplayName("유저 생성 요청")
     @Test
@@ -105,7 +115,7 @@ class ApiControllerTest {
         Long userCode = 100L;
         given(service.get(any())).willReturn(testUserDto());
         //when //then
-        mockMvc.perform(get("/?code="+userCode))
+        mockMvc.perform(get("/?code=" + userCode))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value("OK"))
                 .andExpect(jsonPath("$.message").value("success"))

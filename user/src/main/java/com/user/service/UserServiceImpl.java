@@ -12,13 +12,16 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
     @Override
     public UserDto create(UserCreateRequest request) {
-        if(request == null) throw new IllegalArgumentException("UserCreateRequest must not be null");
+        if (request == null)
+            throw new IllegalArgumentException("UserCreateRequest must not be null");
+        request.checkValidation();
+
         User user = User.builder()
                 .name(request.getName())
                 .birth(request.getBirth())
@@ -33,16 +36,27 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void delete(Long userCode) {
-
+        userRepository.deleteById(userCode);
     }
 
     @Override
     public UserDto update(UserUpdateRequest request) {
-        return null;
+        if (request == null)
+            throw new IllegalArgumentException("UserUpdateRequest must not be null");
+        request.checkValidation();
+        User user = userRepository.findById(request.getCode()).orElseThrow();
+        user.setAddress(request.getAddress());
+        user.setPassword(request.getPassword());
+        user.setRole(request.getRole());
+        user.setEmail(request.getEmail());
+        user.setPhone(request.getPhone());
+        return user.toUserDto();
     }
 
     @Override
     public UserDto get(Long userCode) {
-        return null;
+        return userRepository.findById(userCode)
+                .orElseThrow(() -> new IllegalArgumentException("not found user"))
+                .toUserDto();
     }
 }

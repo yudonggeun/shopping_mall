@@ -8,6 +8,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.lang.annotation.Target;
@@ -16,7 +17,8 @@ import java.time.LocalDate;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "USERS")
-public class User  extends BaseEntity{
+@Getter
+public class User extends BaseEntity {
     private String name;
     private LocalDate birth;
     private String address;
@@ -28,12 +30,45 @@ public class User  extends BaseEntity{
 
     @Builder
     private User(String name, LocalDate birth, String address, String password, String phone, String email, UserType role) {
+        setName(name);
+        setBirth(birth);
+        setAddress(address);
+        setPassword(password);
+        setPhone(phone);
+        setEmail(email);
+        setRole(role);
+    }
+
+    public void setName(String name) {
+        if (name == null) throw new IllegalArgumentException("user must have a name");
         this.name = name;
+    }
+
+    public void setBirth(LocalDate birth) {
         this.birth = birth;
+    }
+
+    public void setAddress(String address) {
         this.address = address;
+    }
+
+    public void setPassword(String password) {
+        if (password == null) throw new IllegalArgumentException("user must have a password");
         this.password = password;
+    }
+
+    public void setPhone(String phone) {
+        if (phone == null) throw new IllegalArgumentException("user must have a phone number");
         this.phone = phone;
+    }
+
+    public void setEmail(String email) {
+        if (email == null) throw new IllegalArgumentException("user must have a email");
         this.email = email;
+    }
+
+    public void setRole(UserType role) {
+        if (role == null) role = UserType.NORMAL;
         this.role = role;
     }
 
@@ -47,6 +82,7 @@ public class User  extends BaseEntity{
         result.setPhone(phone);
         result.setEmail(email);
         result.setRole(role);
+        result.setRegisterDate(getCreatedAt());
         return result;
     }
 }
