@@ -42,7 +42,7 @@ public class Product extends BaseEntity {
     }
 
     /**
-     * recommend to use builder, this constructor use in test code
+     * recommend to use builder, this constructor is used in test code
      */
     @Deprecated
     public Product(Long id, LocalDateTime createdAt, String name, Integer price, Integer stock, String detail, ProductSellStatus status) {
