@@ -1,10 +1,10 @@
 package com.user.dto.request;
 
-import com.user.domain.UserType;
+import com.user.domain.Role;
 import lombok.Data;
 
 @Data
 public class Authority {
-    private UserType userRole;
+    private Role userRole;
     private Long code;
 }

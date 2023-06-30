@@ -1,11 +1,11 @@
 package com.user.dto.request;
 
-import com.user.domain.UserType;
+import com.user.domain.Role;
 import lombok.Data;
 
 import java.time.LocalDate;
 
-import static com.user.domain.UserType.*;
+import static com.user.domain.Role.*;
 
 @Data
 public class UserCreateRequest implements Request{
@@ -15,7 +15,7 @@ public class UserCreateRequest implements Request{
     private String password;
     private String phone;
     private String email;
-    private UserType role;
+    private Role role;
     private Authority authority;
 
     @Override

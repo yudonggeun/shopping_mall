@@ -1,7 +1,7 @@
 package com.user.service;
 
 import com.user.domain.User;
-import com.user.domain.UserType;
+import com.user.domain.Role;
 import com.user.dto.UserDto;
 import com.user.dto.request.Authority;
 import com.user.dto.request.UserCreateRequest;
@@ -38,7 +38,7 @@ class UserServiceTest {
     void create_user() {
         //given
         UserCreateRequest req = new UserCreateRequest();
-        req.setRole(UserType.NORMAL);
+        req.setRole(Role.NORMAL);
         req.setName("tim");
         req.setEmail("tim@email.com");
         req.setPhone("010-1111-1111");
@@ -146,7 +146,7 @@ class UserServiceTest {
                 .password("sdkj@33x")
                 .address("test")
                 .birth(LocalDate.of(2000, 2, 2))
-                .role(UserType.NORMAL)
+                .role(Role.NORMAL)
                 .build();
     }
 }

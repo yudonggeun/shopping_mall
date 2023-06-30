@@ -1,9 +1,9 @@
 package com.user.dto.request;
 
-import com.user.domain.UserType;
+import com.user.domain.Role;
 import lombok.Data;
 
-import static com.user.domain.UserType.*;
+import static com.user.domain.Role.*;
 
 @Data
 public class UserUpdateRequest implements Request {
@@ -12,7 +12,7 @@ public class UserUpdateRequest implements Request {
     private String password;
     private String phone;
     private String email;
-    private UserType role;
+    private Role role;
     private Authority auth;
 
     private final static String isNotUserOwner = "고객 정보 변경은 본인의 동의가 필요합니다.";

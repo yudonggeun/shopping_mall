@@ -1,6 +1,6 @@
 package com.user.dto;
 
-import com.user.domain.UserType;
+import com.user.domain.Role;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -15,6 +15,6 @@ public class UserDto {
     private String password;
     private String phone;
     private String email;
-    private UserType role;
+    private Role role;
     private LocalDateTime registerDate;
 }

@@ -17,7 +17,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import static com.user.domain.UserType.*;
+import static com.user.domain.Role.*;
 import static org.mockito.BDDMockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -34,17 +34,19 @@ class ApiTest {
     @MockBean
     UserService service;
 
-    //todo
-    @DisplayName("secret of a jwt token must be same")
-    @Test
-    void create() {
-        //given
-
-        //when
-
-        //then
-        throw new RuntimeException();
-    }
+//    //todo
+//    @DisplayName("")
+//    @Test
+//    void create() throws Exception {
+//        //given
+//        Long userCode = 100L;
+//        //when //then
+//        mockMvc.perform(delete("/?code=" + userCode))
+//                .andDo(print())
+//                .andExpect(status().isForbidden())
+//                .andExpect(jsonPath("$.code").value("FORBIDDEN"))
+//                .andExpect(jsonPath("$.message").value("권한이 없습니다."));
+//    }
 
     @DisplayName("유저 생성 요청")
     @Test

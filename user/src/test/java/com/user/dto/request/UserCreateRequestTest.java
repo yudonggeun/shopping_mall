@@ -1,11 +1,9 @@
 package com.user.dto.request;
 
-import com.user.domain.UserType;
+import com.user.domain.Role;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class UserCreateRequestTest {
 
@@ -18,7 +16,7 @@ class UserCreateRequestTest {
         request.setEmail("tim@email.com");
         request.setPhone("010-1111-1111");
         request.setPassword("test1234");
-        request.setRole(UserType.ADMIN);
+        request.setRole(Role.ADMIN);
         //when //then
         Assertions.assertThatThrownBy(request::checkValidation)
                 .isInstanceOf(RuntimeException.class)

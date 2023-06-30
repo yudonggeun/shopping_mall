@@ -11,7 +11,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.lang.annotation.Target;
 import java.time.LocalDate;
 
 @Entity
@@ -26,10 +25,10 @@ public class User extends BaseEntity {
     private String phone;
     private String email;
     @Enumerated(EnumType.STRING)
-    private UserType role;
+    private Role role;
 
     @Builder
-    private User(String name, LocalDate birth, String address, String password, String phone, String email, UserType role) {
+    private User(String name, LocalDate birth, String address, String password, String phone, String email, Role role) {
         setName(name);
         setBirth(birth);
         setAddress(address);
@@ -67,8 +66,8 @@ public class User extends BaseEntity {
         this.email = email;
     }
 
-    public void setRole(UserType role) {
-        if (role == null) role = UserType.NORMAL;
+    public void setRole(Role role) {
+        if (role == null) role = Role.NORMAL;
         this.role = role;
     }
 

@@ -1,5 +1,5 @@
 package com.user.domain;
 
-public enum UserType {
+public enum Role {
     NORMAL, ADMIN
 }

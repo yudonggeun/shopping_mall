@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 import java.time.LocalDate;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 class UserTest {
 
@@ -21,7 +20,7 @@ class UserTest {
                     .password("sdkj@33x")
                     .address("test")
                     .birth(LocalDate.of(2000, 2, 2))
-                    .role(UserType.NORMAL)
+                    .role(Role.NORMAL)
                     .build();
         }).isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("user must have a name");
@@ -37,7 +36,7 @@ class UserTest {
                     .phone("010-0000-0000")
                     .address("test")
                     .birth(LocalDate.of(2000, 2, 2))
-                    .role(UserType.NORMAL)
+                    .role(Role.NORMAL)
                     .build();
         }).isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("user must have a password");
@@ -53,7 +52,7 @@ class UserTest {
                     .password("sdkj@33x")
                     .address("test")
                     .birth(LocalDate.of(2000, 2, 2))
-                    .role(UserType.NORMAL)
+                    .role(Role.NORMAL)
                     .build();
         }).isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("user must have a email");
@@ -69,7 +68,7 @@ class UserTest {
                     .password("sdkj@33x")
                     .address("test")
                     .birth(LocalDate.of(2000, 2, 2))
-                    .role(UserType.NORMAL)
+                    .role(Role.NORMAL)
                     .build();
         }).isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("user must have a phone number");
@@ -87,7 +86,7 @@ class UserTest {
                 .birth(LocalDate.of(2000, 2, 2))
                 .build();
 
-        assertThat(user.getRole()).isEqualTo(UserType.NORMAL);
+        assertThat(user.getRole()).isEqualTo(Role.NORMAL);
     }
 
     @DisplayName("toUserDto : 유저 dto 는 유저의 정보를 정확하게 가져야한다.")
@@ -117,7 +116,7 @@ class UserTest {
         //when
         user.setRole(null);
         //then
-        assertThat(user.getRole()).isEqualTo(UserType.NORMAL);
+        assertThat(user.getRole()).isEqualTo(Role.NORMAL);
     }
 
     @DisplayName("setRole : 변경이 반영되어야 한다.")
@@ -126,9 +125,9 @@ class UserTest {
         //given
         User user = getUser();
         //when
-        user.setRole(UserType.ADMIN);
+        user.setRole(Role.ADMIN);
         //then
-        assertThat(user.getRole()).isEqualTo(UserType.ADMIN);
+        assertThat(user.getRole()).isEqualTo(Role.ADMIN);
     }
 
     @DisplayName("setEmail : 이메일은 반드시 필요하다.")
@@ -221,7 +220,7 @@ class UserTest {
                 .password("sdkj@33x")
                 .address("test")
                 .birth(LocalDate.of(2000, 2, 2))
-                .role(UserType.NORMAL)
+                .role(Role.NORMAL)
                 .build();
     }
 }
