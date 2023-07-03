@@ -1,8 +1,9 @@
 package com.order.service;
 
-import com.order.api.OrderChangeRequest;
+import com.order.api.OrderUpdateRequest;
 import com.order.dto.OrderDto;
 import com.order.dto.request.OrderCreateRequest;
+import com.order.dto.request.OrderListGetRequest;
 import org.springframework.data.domain.Page;
 
 public interface OrderService {
@@ -10,7 +11,7 @@ public interface OrderService {
 
     OrderDto get(Long orderCode);
 
-    Page<OrderDto> getList();
+    Page<OrderDto> getList(OrderListGetRequest request);
 
-    OrderDto update(OrderChangeRequest request);
+    OrderDto update(OrderUpdateRequest request);
 }

@@ -23,7 +23,7 @@ public class OrderApi {
     }
 
     @PostMapping
-    public ResponseEntity<ApiResponse> changeOrderDetail(@RequestBody OrderChangeRequest request) {
+    public ResponseEntity<ApiResponse> changeOrderDetail(@RequestBody OrderUpdateRequest request) {
         return ApiResponse.ok(orderService.update(request));
     }
 
@@ -39,6 +39,6 @@ public class OrderApi {
         OrderListGetRequest request = new OrderListGetRequest(userCode);
         request.setPageSize(pageSize);
         request.setPageIndex(pageIndex);
-        return ApiResponse.ok(orderService.getList());
+        return ApiResponse.ok(orderService.getList(request));
     }
 }

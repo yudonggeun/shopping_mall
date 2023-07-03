@@ -75,7 +75,7 @@ class OrderApiTest {
     @Test
     void changeOrder() throws Exception {
         //given
-        OrderChangeRequest request = new OrderChangeRequest();
+        OrderUpdateRequest request = new OrderUpdateRequest();
         //when //then
         mockMvc.perform(MockMvcRequestBuilders.put("/")
                         .content(objectMapper.writeValueAsString(request))
