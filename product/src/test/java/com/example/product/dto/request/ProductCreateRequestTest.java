@@ -1,5 +1,6 @@
 package com.example.product.dto.request;
 
+import common.request.ProductCreateRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

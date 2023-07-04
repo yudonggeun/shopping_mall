@@ -1,8 +1,8 @@
 package com.user.service;
 
-import com.user.dto.UserDto;
-import com.user.dto.request.UserCreateRequest;
-import com.user.dto.request.UserUpdateRequest;
+import common.dto.UserDto;
+import common.request.UserCreateRequest;
+import common.request.UserUpdateRequest;
 
 public interface UserService {
     UserDto create(UserCreateRequest request);

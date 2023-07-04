@@ -2,8 +2,8 @@ package com.example.product.repository;
 
 import com.example.product.domain.Product;
 import com.example.product.domain.QProduct;
-import com.example.product.dto.request.ProductCondition;
-import com.example.product.dto.request.ProductListConditionRequest;
+import common.request.ProductCondition;
+import common.request.ProductListConditionRequest;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import lombok.extern.slf4j.Slf4j;

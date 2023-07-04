@@ -1,9 +1,9 @@
 package com.user.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.user.dto.UserDto;
-import com.user.dto.request.UserCreateRequest;
-import com.user.dto.request.UserUpdateRequest;
+import common.dto.UserDto;
+import common.request.UserCreateRequest;
+import common.request.UserUpdateRequest;
 import com.user.service.UserService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,7 +17,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import static com.user.domain.Role.*;
+import static common.status.Role.*;
 import static org.mockito.BDDMockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;

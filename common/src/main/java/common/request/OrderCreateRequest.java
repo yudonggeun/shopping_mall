@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-public class OrderCreateRequest {
+public class OrderCreateRequest implements Request{
     private Long userCode;
     private String address;
     private List<OrderDetailDto> orderDetails = new ArrayList<>();
@@ -16,6 +16,7 @@ public class OrderCreateRequest {
         return orderDetails.stream().mapToInt(OrderDetailDto::getTotalPrice).sum();
     }
 
+    @Override
     public void checkValidation(){
         if(orderDetails.isEmpty()) throw new IllegalArgumentException("order must have one product at least");
     }

@@ -1,9 +1,9 @@
 package com.user.service;
 
 import com.user.domain.User;
-import com.user.dto.UserDto;
-import com.user.dto.request.UserCreateRequest;
-import com.user.dto.request.UserUpdateRequest;
+import common.dto.UserDto;
+import common.request.UserCreateRequest;
+import common.request.UserUpdateRequest;
 import com.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

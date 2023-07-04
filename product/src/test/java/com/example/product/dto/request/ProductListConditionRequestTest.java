@@ -1,5 +1,7 @@
 package com.example.product.dto.request;
 
+import common.request.ProductCondition;
+import common.request.ProductListConditionRequest;
 import common.status.ProductSellStatus;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

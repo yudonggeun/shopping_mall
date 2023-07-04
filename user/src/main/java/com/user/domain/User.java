@@ -1,7 +1,8 @@
 package com.user.domain;
 
-import com.user.dto.UserDto;
+import common.dto.UserDto;
 import common.entity.BaseEntity;
+import common.status.Role;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;

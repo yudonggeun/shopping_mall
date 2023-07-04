@@ -1,4 +1,4 @@
-package com.user.domain;
+package common.status;
 
 public enum Role {
     NORMAL, ADMIN

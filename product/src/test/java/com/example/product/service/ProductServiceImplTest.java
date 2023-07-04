@@ -2,10 +2,10 @@ package com.example.product.service;
 
 import com.example.product.domain.Product;
 import common.dto.ProductDto;
-import com.example.product.dto.request.ProductCondition;
-import com.example.product.dto.request.ProductCreateRequest;
-import com.example.product.dto.request.ProductListConditionRequest;
-import com.example.product.dto.request.ProductUpdateRequest;
+import common.request.ProductCondition;
+import common.request.ProductCreateRequest;
+import common.request.ProductListConditionRequest;
+import common.request.ProductUpdateRequest;
 import com.example.product.repository.ProductRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

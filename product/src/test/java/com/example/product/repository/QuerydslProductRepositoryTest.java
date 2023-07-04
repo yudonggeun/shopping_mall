@@ -1,8 +1,8 @@
 package com.example.product.repository;
 
 import com.example.product.domain.Product;
-import com.example.product.dto.request.ProductCondition;
-import com.example.product.dto.request.ProductListConditionRequest;
+import common.request.ProductCondition;
+import common.request.ProductListConditionRequest;
 
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;

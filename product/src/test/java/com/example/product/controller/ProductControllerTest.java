@@ -1,8 +1,8 @@
 package com.example.product.controller;
 
 import common.dto.ProductDto;
-import com.example.product.dto.request.ProductCreateRequest;
-import com.example.product.dto.request.ProductUpdateRequest;
+import common.request.ProductCreateRequest;
+import common.request.ProductUpdateRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -1,6 +1,7 @@
 package com.user.domain;
 
-import com.user.dto.UserDto;
+import common.dto.UserDto;
+import common.status.Role;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

@@ -1,8 +1,8 @@
 package com.example.product.controller;
 
 import common.dto.ProductDto;
-import com.example.product.dto.request.ProductCreateRequest;
-import com.example.product.dto.request.ProductUpdateRequest;
+import common.request.ProductCreateRequest;
+import common.request.ProductUpdateRequest;
 import com.example.product.service.ProductService;
 import common.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.example.product.dto.request.ProductListConditionRequest;
+import common.request.ProductListConditionRequest;
 
 @RequestMapping
 @RestController

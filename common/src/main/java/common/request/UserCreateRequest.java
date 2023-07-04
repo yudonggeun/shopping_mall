@@ -1,11 +1,12 @@
-package com.user.dto.request;
+package common.request;
 
-import com.user.domain.Role;
+import common.dto.Authority;
+import common.status.Role;
 import lombok.Data;
 
 import java.time.LocalDate;
 
-import static com.user.domain.Role.*;
+import static common.status.Role.*;
 
 @Data
 public class UserCreateRequest implements Request{

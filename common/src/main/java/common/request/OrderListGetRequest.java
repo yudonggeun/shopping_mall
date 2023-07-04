@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public class OrderListGetRequest {
+public class OrderListGetRequest implements Request{
     @NotNull
     private Long userCode;
     @Min(0)
@@ -17,6 +17,7 @@ public class OrderListGetRequest {
         this.userCode = userCode;
     }
 
+    @Override
     public void checkValidation() {
         if(userCode == null) throw new IllegalArgumentException();
     }

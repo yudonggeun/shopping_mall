@@ -1,9 +1,9 @@
 package com.example.product.service;
 
-import com.example.product.dto.request.ProductUpdateRequest;
+import common.request.ProductUpdateRequest;
 import common.dto.ProductDto;
-import com.example.product.dto.request.ProductCreateRequest;
-import com.example.product.dto.request.ProductListConditionRequest;
+import common.request.ProductCreateRequest;
+import common.request.ProductListConditionRequest;
 import org.springframework.data.domain.Page;
 
 

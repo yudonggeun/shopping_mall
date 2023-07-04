@@ -1,9 +1,11 @@
 package com.user.dto.request;
 
+import common.dto.Authority;
+import common.request.UserUpdateRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static com.user.domain.Role.*;
+import static common.status.Role.*;
 import static org.assertj.core.api.Assertions.*;
 
 class UserUpdateRequestTest {

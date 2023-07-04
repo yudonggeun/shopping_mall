@@ -1,6 +1,7 @@
 package com.user.dto.request;
 
-import com.user.domain.Role;
+import common.request.UserCreateRequest;
+import common.status.Role;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

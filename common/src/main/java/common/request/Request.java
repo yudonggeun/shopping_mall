@@ -1,4 +1,4 @@
-package com.user.dto.request;
+package common.request;
 
 public interface Request {
     void checkValidation();

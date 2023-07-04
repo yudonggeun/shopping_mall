@@ -1,4 +1,4 @@
-package com.example.product.dto.request;
+package common.request;
 
 import common.status.ProductSellStatus;
 import lombok.Data;

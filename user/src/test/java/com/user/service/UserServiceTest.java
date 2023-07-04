@@ -1,11 +1,11 @@
 package com.user.service;
 
 import com.user.domain.User;
-import com.user.domain.Role;
-import com.user.dto.UserDto;
-import com.user.dto.request.Authority;
-import com.user.dto.request.UserCreateRequest;
-import com.user.dto.request.UserUpdateRequest;
+import common.status.Role;
+import common.dto.UserDto;
+import common.dto.Authority;
+import common.request.UserCreateRequest;
+import common.request.UserUpdateRequest;
 import com.user.repository.UserRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

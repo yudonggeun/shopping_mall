@@ -1,7 +1,7 @@
 package com.example.product.domain;
 
 import common.dto.ProductDto;
-import com.example.product.dto.request.ProductUpdateRequest;
+import common.request.ProductUpdateRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

@@ -1,6 +1,6 @@
-package com.user.dto.request;
+package common.dto;
 
-import com.user.domain.Role;
+import common.status.Role;
 import lombok.Data;
 
 @Data

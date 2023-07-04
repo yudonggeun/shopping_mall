@@ -1,8 +1,8 @@
 package com.user.api;
 
-import com.user.dto.request.UserUpdateRequest;
+import common.request.UserUpdateRequest;
 import com.user.service.UserService;
-import com.user.dto.request.UserCreateRequest;
+import common.request.UserCreateRequest;
 import common.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
