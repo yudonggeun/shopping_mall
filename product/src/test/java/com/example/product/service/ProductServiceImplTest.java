@@ -1,12 +1,11 @@
 package com.example.product.service;
 
 import com.example.product.domain.Product;
+import common.dto.ProductOrderDto;
 import common.dto.ProductDto;
-import common.request.ProductCondition;
-import common.request.ProductCreateRequest;
-import common.request.ProductListConditionRequest;
-import common.request.ProductUpdateRequest;
+import common.request.*;
 import com.example.product.repository.ProductRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
 import java.util.Set;
 
 import static common.status.ProductSellStatus.*;
@@ -60,6 +60,11 @@ class ProductServiceImplTest {
                     .build();
             repository.save(product);
         }
+    }
+
+    @AfterEach
+    void cleanRepo() {
+        repository.deleteAll();
     }
 
     @DisplayName("getList : 조건을 주지 않았다면 조회한 상품의 타입은 DEFAULT 조건에 따른다.")
@@ -234,9 +239,10 @@ class ProductServiceImplTest {
         ProductUpdateRequest req = new ProductUpdateRequest(code);
         req.setStock(0);
         req.setStatus(SELL);
-        //when //then
-        assertThatThrownBy(() -> service.update(req)).isInstanceOf(IllegalArgumentException.class)
-                        .hasMessage("if stock is 0, status must not be SELL");
+        //when
+        ProductDto product = service.update(req);
+        //then
+        assertThat(product.getStatus()).isNotEqualTo(SELL);
     }
 
     @DisplayName("delete : 상품 삭제 이후 해당 상품이 존재하지 않아야 한다.")
@@ -249,5 +255,26 @@ class ProductServiceImplTest {
         //then
         assertThatThrownBy(() -> repository.findById(code).get());
     }
+
+    @DisplayName("update(ProductOrderRequest) : ")
+    @Test
+    void update_with_product_order() {
+        //given
+        Product product = repository.save(Product.builder().name("selling product")
+                .detail("detail data")
+                .stock(1)
+                .price(1000)
+                .status(SELL)
+                .build());
+
+        ProductOrderRequest request = ProductOrderRequest.request(List.of(new ProductOrderDto(product.getId(), 1, 1000)));
+        //when
+        List<ProductDto> result = service.update(request);
+        //then
+        assertThat(result).hasSize(1);
+        assertThat(result.get(0)).extracting("stock", "price", "code")
+                .containsExactly(0, 1000, product.getId());
+    }
+
 
 }

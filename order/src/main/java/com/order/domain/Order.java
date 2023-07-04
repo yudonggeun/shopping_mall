@@ -1,6 +1,6 @@
 package com.order.domain;
 
-import common.dto.OrderDetailDto;
+import common.dto.ProductOrderDto;
 import common.dto.OrderDto;
 import com.order.repository.OrderDetailRepository;
 import common.entity.BaseEntity;
@@ -60,7 +60,7 @@ public class Order extends BaseEntity {
         return result;
     }
 
-    public List<OrderDetailDto> getOrderDetails(OrderDetailRepository repository){
+    public List<ProductOrderDto> getOrderDetails(OrderDetailRepository repository){
         return repository.findByOrderCode(getId())
                 .stream().map(OrderDetail::toDto)
                 .collect(Collectors.toList());

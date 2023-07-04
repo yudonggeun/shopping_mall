@@ -1,6 +1,6 @@
 package com.order.domain;
 
-import common.dto.OrderDetailDto;
+import common.dto.ProductOrderDto;
 import common.entity.BaseEntity;
 import jakarta.persistence.Entity;
 import lombok.AccessLevel;
@@ -46,7 +46,7 @@ public class OrderDetail extends BaseEntity {
         this.totalPrice = totalPrice;
     }
 
-    public OrderDetailDto toDto() {
-        return new OrderDetailDto(productCode, quantity, totalPrice);
+    public ProductOrderDto toDto() {
+        return new ProductOrderDto(productCode, quantity, totalPrice);
     }
 }

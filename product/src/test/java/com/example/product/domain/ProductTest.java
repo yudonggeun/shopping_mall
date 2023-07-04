@@ -1,7 +1,10 @@
 package com.example.product.domain;
 
 import common.dto.ProductDto;
+import common.dto.ProductOrderDto;
 import common.request.ProductUpdateRequest;
+import common.status.OrderType;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -44,25 +47,22 @@ class ProductTest {
     @DisplayName("상품 제고가 0인 상품은 판매상태일 수 없다.")
     @Test
     void createProductZeroStock() {
-        assertThatThrownBy(() -> {
-            Product product = Product.builder()
-                    .name("test product").detail("임시 테스트 상품")
-                    .status(SELL).stock(0)
-                    .price(10).build();
-        }).isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("if stock is 0, status must not be SELL");
+        Product product = Product.builder()
+                .name("test product").detail("임시 테스트 상품")
+                .status(SELL).stock(0)
+                .price(10).build();
+        assertThat(product.getStatus()).isNotEqualTo(SELL);
     }
 
     @DisplayName("상품 제고가 1이상인 상품은 품절 상태일 수 없다.")
     @Test
     void createProductNotZeroStock() {
-        assertThatThrownBy(() -> {
-            Product product = Product.builder()
-                    .name("test product").detail("임시 테스트 상품")
-                    .status(SOLD_OUT).stock(1)
-                    .price(10).build();
-        }).isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("if stock is not 0, status must not be SOLD_OUT");
+        Product product = Product.builder()
+                .name("test product").detail("임시 테스트 상품")
+                .status(SOLD_OUT).stock(1)
+                .price(10).build();
+
+        assertThat(product.getStatus()).isNotEqualTo(SOLD_OUT);
     }
 
     @DisplayName("name 없이 product 객체를 생성할 수 없다.")
@@ -208,9 +208,10 @@ class ProductTest {
         Product product = new Product(1l, LocalDateTime.now(), "name", 1000, 0, "detail", SOLD_OUT);
         ProductUpdateRequest request = new ProductUpdateRequest(product.getId());
         request.setStock(100);
-        //when //then
-        assertThatThrownBy(() -> product.update(request)).isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("if stock is not 0, status must not be SOLD_OUT");
+        //when
+        product.update(request);
+        //then
+        assertThat(product.getStatus()).isNotEqualTo(SOLD_OUT);
     }
 
     @DisplayName("update : 제고가 0인 상품의 상태는 판매상태가 아니다.")
@@ -221,10 +222,10 @@ class ProductTest {
 
         ProductUpdateRequest request = new ProductUpdateRequest(product.getId());
         request.setStock(0);
-        //when //then
-        assertThatThrownBy(() -> product.update(request))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("if stock is 0, status must not be SELL");
+        //when
+        product.update(request);
+        //then
+        assertThat(product.getStatus()).isNotEqualTo(SELL);
     }
 
     @DisplayName("update : 제고가 0 미만인 요청은 예외를 발생시킨다.")
@@ -252,4 +253,84 @@ class ProductTest {
         assertThatThrownBy(() -> product.update(request)).isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("price(int) must be bigger than -1");
     }
+
+    @DisplayName("update(ProductOrderDto) : 정상 상품 처리 요청이 반영된다")
+    @Test
+    public void update_with_ProductOrderDto() {
+        //given
+        Product product = new Product(100l, LocalDateTime.now(), "name", 1000, 100, "detail", SELL);
+        ProductOrderDto dto = new ProductOrderDto(100L, 1, 1000);
+        //when
+        product.update(dto, OrderType.REQUEST);
+        //then
+        assertThat(product.getStock()).isEqualTo(99);
+    }
+
+    @DisplayName("update(ProductOrderDto) : 상품이 판매 상태가 아니라면 예외를 발생시킨다.")
+    @Test
+    public void update_with_ProductOrderDto_not_sell() {
+        //given
+        Product product = new Product(100l, LocalDateTime.now(), "name", 1000, 100, "detail", HIDE);
+        ProductOrderDto dto = new ProductOrderDto(100L, 1, 1000);
+        //when //then
+        assertThatThrownBy(() -> product.update(dto, OrderType.REQUEST));
+    }
+
+    @DisplayName("update(ProductOrderDto) : 상품의 제고가 부족하면 예외를 발생시킨다.")
+    @Test
+    public void update_with_ProductOrderDto_not_enough_stock() {
+        //given
+        Product product = new Product(100l, LocalDateTime.now(), "name", 1000, 100, "detail", SELL);
+        ProductOrderDto dto = new ProductOrderDto(100L, 101, 101000);
+        //when //then
+        assertThatThrownBy(() -> product.update(dto, OrderType.REQUEST));
+    }
+
+
+    @DisplayName("update(ProductOrderDto) : 상품 주문의 총 가격이 정확하지 않다면 예외를 발생시킨다.")
+    @Test
+    public void update_with_ProductOrderDto_invalid_total_price() {
+        //given
+        Product product = new Product(100l, LocalDateTime.now(), "name", 1000, 100, "detail", SELL);
+        ProductOrderDto dto = new ProductOrderDto(100L, 1, 3000);
+        //when //then
+        assertThatThrownBy(() -> product.update(dto, OrderType.REQUEST));
+    }
+
+    @DisplayName("update(ProductOrderDto) : 상품 코드가 일치하지 않으면 예외를 발생시킨다.")
+    @Test
+    public void update_with_ProductOrderDto_not_matching_product_code() {
+        //given
+        Product product = new Product(100l, LocalDateTime.now(), "name", 1000, 100, "detail", SELL);
+        ProductOrderDto dto = new ProductOrderDto(101L, 1, 1000);
+        //when //then
+        assertThatThrownBy(() -> product.update(dto, OrderType.REQUEST));
+    }
+
+    @DisplayName("update(ProductOrderDto : 제고가 0이 된다면 상품의 상태는 sell 아니다")
+    @Test
+    public void setStock_if_stock_is_zero_then_status_is_sold_out() {
+        //given
+        Product product = new Product(100l, LocalDateTime.now(), "name", 1000, 1, "detail", SELL);
+        ProductOrderDto dto = new ProductOrderDto(100L, 1, 1000);
+        //when
+        product.update(dto, OrderType.REQUEST);
+        //then
+        assertThat(product.getStock()).isZero();
+        assertThat(product.getStatus()).isNotEqualTo(SELL);
+    }
+
+    @DisplayName("update(ProductOrderDto : 제고가 0이 아니라면 상품의 상태는 sold out 아니다.")
+    @Test
+    public void setStock_if_stock_is_not_zero_then_status_is_sell() {
+        //given
+        Product product = new Product(100l, LocalDateTime.now(), "name", 1000, 0, "detail", SOLD_OUT);
+        ProductOrderDto dto = new ProductOrderDto(100L, 1, 1000);
+        //when
+        product.update(dto, OrderType.CANCEL);
+        //then
+        assertThat(product.getStock()).isOne();
+        assertThat(product.getStatus()).isNotEqualTo(SOLD_OUT);
+    }
+
 }

@@ -1,6 +1,7 @@
 package com.example.product.service;
 
 import com.example.product.domain.Product;
+import common.dto.ProductOrderDto;
 import common.dto.ProductDto;
 import common.request.ProductCreateRequest;
 import common.request.ProductListConditionRequest;
@@ -15,13 +16,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 import static java.util.stream.Collectors.*;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class ProductServiceImpl implements ProductService{
+public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository crudRepository;
     private final QuerydslProductRepository readOnlyRepository;
@@ -41,7 +43,7 @@ public class ProductServiceImpl implements ProductService{
     @Transactional(readOnly = true)
     @Override
     public ProductDto get(Long code) {
-        if(code == null) throw new IllegalArgumentException("code must be not null");
+        if (code == null) throw new IllegalArgumentException("code must be not null");
         return crudRepository.findById(code)
                 .orElseThrow(() -> new IllegalArgumentException("don't input invalid product code"))
                 .toProductDto();
@@ -50,7 +52,8 @@ public class ProductServiceImpl implements ProductService{
     @Override
     public ProductDto create(ProductCreateRequest request) {
 
-        if(request == null) throw new IllegalArgumentException("if you want to register the product, must need request");
+        if (request == null)
+            throw new IllegalArgumentException("if you want to register the product, must need request");
         Product product = Product.builder()
                 .name(request.getName())
                 .stock(request.getStock())
@@ -66,7 +69,7 @@ public class ProductServiceImpl implements ProductService{
 
     @Override
     public ProductDto update(ProductUpdateRequest request) {
-        if(request == null) throw new IllegalArgumentException("if you want to update the product, must need request");
+        if (request == null) throw new IllegalArgumentException("if you want to update the product, must need request");
         Product product = crudRepository.findById(request.getCode()).orElseThrow();
         product.update(request);
         return product.toProductDto();
@@ -78,7 +81,18 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    public ProductDto update(ProductOrderRequest request) {
-        return null;
+    public List<ProductDto> update(ProductOrderRequest request) {
+        Map<Long, ProductOrderDto> productOrderMap = request.getOrders().stream().collect(toMap(ProductOrderDto::getProductCode, e -> e));
+        Map<Long, Product> productMap = crudRepository.findAllByIdIn(productOrderMap.keySet()).stream()
+                .collect(toMap(Product::getId, product -> product));
+
+        for (Long code : productOrderMap.keySet()) {
+            if (!productMap.containsKey(code))
+                throw new IllegalArgumentException("don't input invalid product code");
+            Product product = productMap.get(code);
+            product.update(productOrderMap.get(code), request.getType());
+        }
+
+        return productMap.values().stream().map(Product::toProductDto).toList();
     }
 }

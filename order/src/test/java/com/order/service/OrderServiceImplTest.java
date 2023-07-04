@@ -4,7 +4,7 @@ import com.order.api.OrderUpdateRequest;
 import com.order.client.ProductClient;
 import com.order.domain.Order;
 import com.order.domain.OrderDetail;
-import common.dto.OrderDetailDto;
+import common.dto.ProductOrderDto;
 import common.response.ApiResponse;
 import common.status.OrderStatus;
 import common.dto.OrderDto;
@@ -12,7 +12,6 @@ import common.request.OrderCreateRequest;
 import common.request.OrderListGetRequest;
 import com.order.repository.OrderDetailRepository;
 import com.order.repository.OrderRepository;
-import org.assertj.core.api.AbstractThrowableAssert;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -56,7 +55,7 @@ class OrderServiceImplTest {
         OrderDetail detail = orderDetailRepository.save(createDetail(100L, 1, 100, orderCode));
         //when
         OrderDto orderDto = orderService.get(orderCode);
-        List<OrderDetailDto> orderDetails = orderDto.getOrderDetails();
+        List<ProductOrderDto> orderDetails = orderDto.getOrderDetails();
         //then
         assertThat(orderCode).isEqualTo(orderDto.getCode());
         assertThat(orderDetails).hasSize(1);
@@ -81,7 +80,7 @@ class OrderServiceImplTest {
         OrderListGetRequest invalidRequest = new OrderListGetRequest(null);
         //when //then
         assertThatThrownBy(invalidRequest::checkValidation);
-        assertThatThrownBy(() -> orderService.getList(invalidRequest))
+        assertThatThrownBy(() -> orderService.getList(invalidRequest));
     }
 
     @DisplayName("getList : 특정 유저에 대한 주문 내역을 조회한다.")
@@ -143,7 +142,7 @@ class OrderServiceImplTest {
         OrderCreateRequest request = new OrderCreateRequest();
         request.setUserCode(100L);
         request.setAddress("test");
-        request.setOrderDetails(List.of(new OrderDetailDto(100L, 1, 10000)));
+        request.setOrderDetails(List.of(new ProductOrderDto(100L, 1, 10000)));
 
         productServiceReturnOk();
         //when
@@ -162,7 +161,7 @@ class OrderServiceImplTest {
     @Test
     void create_product_client_not_working() {
         //data
-        List<OrderDetailDto> details = List.of(new OrderDetailDto(100L, 1, 10000));
+        List<ProductOrderDto> details = List.of(new ProductOrderDto(100L, 1, 10000));
 
         OrderCreateRequest request = new OrderCreateRequest();
         request.setUserCode(100L);

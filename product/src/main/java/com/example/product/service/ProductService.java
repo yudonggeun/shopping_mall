@@ -7,6 +7,8 @@ import common.request.ProductCreateRequest;
 import common.request.ProductListConditionRequest;
 import org.springframework.data.domain.Page;
 
+import java.util.List;
+
 
 public interface ProductService {
     Page<ProductDto> getList(ProductListConditionRequest condition);
@@ -19,5 +21,5 @@ public interface ProductService {
 
     void delete(Long code);
 
-    ProductDto update(ProductOrderRequest request);
+    List<ProductDto> update(ProductOrderRequest request);
 }

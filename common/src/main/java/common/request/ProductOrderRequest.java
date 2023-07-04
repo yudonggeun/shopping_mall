@@ -1,7 +1,6 @@
 package common.request;
 
-import common.dto.OrderDetailDto;
-import common.status.OrderStatus;
+import common.dto.ProductOrderDto;
 import common.status.OrderType;
 import lombok.AccessLevel;
 import lombok.Data;
@@ -13,13 +12,13 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ProductOrderRequest implements Request{
     private OrderType type;
-    private List<OrderDetailDto> orders;
+    private List<ProductOrderDto> orders;
 
-    public static ProductOrderRequest request(List<OrderDetailDto> orders){
+    public static ProductOrderRequest request(List<ProductOrderDto> orders){
         return new ProductOrderRequest(OrderType.REQUEST, orders);
     }
 
-    public static ProductOrderRequest cancel(List<OrderDetailDto> orders){
+    public static ProductOrderRequest cancel(List<ProductOrderDto> orders){
         return new ProductOrderRequest(OrderType.CANCEL, orders);
     }
 
@@ -29,8 +28,12 @@ public class ProductOrderRequest implements Request{
            throw new IllegalArgumentException("order must have one product at least");
     }
 
-    private ProductOrderRequest(OrderType type, List<OrderDetailDto> orders) {
+    private ProductOrderRequest(OrderType type, List<ProductOrderDto> orders) {
         this.type = type;
         this.orders = orders;
+    }
+
+    public List<Long> getProductCodeList() {
+        return orders.stream().map(ProductOrderDto::getProductCode).toList();
     }
 }

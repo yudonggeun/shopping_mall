@@ -6,7 +6,7 @@ import com.order.client.ProductClient;
 import com.order.domain.Order;
 import com.order.domain.OrderDetail;
 import common.status.OrderStatus;
-import common.dto.OrderDetailDto;
+import common.dto.ProductOrderDto;
 import common.dto.OrderDto;
 import common.request.OrderCreateRequest;
 import common.request.OrderListGetRequest;
@@ -93,7 +93,7 @@ public class OrderServiceImpl implements OrderService {
         Collection<Long> orderCodes = content.stream().map(OrderDto::getCode).collect(Collectors.toList());
         List<OrderDetail> orderDetails = orderDetailRepository.findAllByOrderCodeIn(orderCodes);
 
-        Map<Long, ArrayList<OrderDetailDto>> detailMap = new HashMap<>();
+        Map<Long, ArrayList<ProductOrderDto>> detailMap = new HashMap<>();
         orderDetails.forEach(orderDetail -> {
             detailMap.putIfAbsent(orderDetail.getOrderCode(), new ArrayList<>());
             detailMap.get(orderDetail.getOrderCode()).add(orderDetail.toDto());

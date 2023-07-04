@@ -54,7 +54,6 @@ public class ProductController {
 
     @PostMapping("/order")
     public ResponseEntity<ApiResponse> receiveOrder(@RequestBody ProductOrderRequest request){
-        ProductDto productDto = service.update(request);
-        return ApiResponse.ok(productDto);
+        return ApiResponse.ok(service.update(request));
     }
 }

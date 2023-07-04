@@ -13,5 +13,5 @@ public class OrderDto {
     private OrderStatus status;
     private Long userCode;
     private String address;
-    private List<OrderDetailDto> orderDetails = new ArrayList<>();
+    private List<ProductOrderDto> orderDetails = new ArrayList<>();
 }

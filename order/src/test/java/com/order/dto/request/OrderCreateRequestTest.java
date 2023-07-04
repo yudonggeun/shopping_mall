@@ -1,6 +1,6 @@
 package com.order.dto.request;
 
-import common.dto.OrderDetailDto;
+import common.dto.ProductOrderDto;
 import common.request.OrderCreateRequest;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -25,9 +25,9 @@ class OrderCreateRequestTest {
         //given
         OrderCreateRequest request = new OrderCreateRequest();
         request.setOrderDetails(List.of(
-                new OrderDetailDto(100L, 1, 1000),
-                new OrderDetailDto(100L, 2, 4000),
-                new OrderDetailDto(100L, 4, 5000))
+                new ProductOrderDto(100L, 1, 1000),
+                new ProductOrderDto(100L, 2, 4000),
+                new ProductOrderDto(100L, 4, 5000))
         );
         //when
         Integer totalPrice = request.getTotalPrice();

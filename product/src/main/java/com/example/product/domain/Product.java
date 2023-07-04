@@ -1,7 +1,9 @@
 package com.example.product.domain;
 
 import common.dto.ProductDto;
+import common.dto.ProductOrderDto;
 import common.request.ProductUpdateRequest;
+import common.status.OrderType;
 import common.status.ProductSellStatus;
 import common.entity.BaseEntity;
 import jakarta.persistence.Column;
@@ -24,7 +26,7 @@ public class Product extends BaseEntity {
     private int stock;
     private String detail;
     @Column(nullable = false)
-    private ProductSellStatus status;
+    private ProductSellStatus status = HIDE;
 
     @Builder
     private Product(String name, Integer price, Integer stock, String detail, ProductSellStatus status) {
@@ -38,7 +40,7 @@ public class Product extends BaseEntity {
         setDetail(detail);
         setStatus(status);
 
-        checkConsistency();
+        makeConsistency();
     }
 
     /**
@@ -53,7 +55,7 @@ public class Product extends BaseEntity {
         setDetail(detail);
         setStatus(status);
 
-        checkConsistency();
+        makeConsistency();
     }
 
     public ProductDto toProductDto() {
@@ -80,12 +82,12 @@ public class Product extends BaseEntity {
         setStatus(request.getStatus());
         setStock(request.getStock());
 
-        checkConsistency();
+        makeConsistency();
     }
 
-    private void checkConsistency() {
-        if (stock == 0 && status.equals(SELL)) throw new IllegalArgumentException("if stock is 0, status must not be SELL");
-        if (stock != 0 && status.equals(SOLD_OUT)) throw new IllegalArgumentException("if stock is not 0, status must not be SOLD_OUT");
+    private void makeConsistency() {
+        if (this.stock == 0 && getStatus().equals(SELL)) setStatus(SOLD_OUT);
+        if (this.stock > 0 && getStatus().equals(SOLD_OUT)) setStatus(SELL);
     }
 
     private void setName(String name) {
@@ -110,5 +112,31 @@ public class Product extends BaseEntity {
 
     private void setStatus(ProductSellStatus status) {
         if (status != null) this.status = status;
+    }
+
+    public void update(ProductOrderDto dto, OrderType type) {
+        if (!getId().equals(dto.getProductCode()))
+            throw new IllegalArgumentException("product code is not same with the code of request");
+
+        if (type.equals(OrderType.REQUEST)) {
+            checkPurchaseProduct(dto);
+            setStock(getStock() - dto.getQuantity());
+        } else {
+            checkRefundProduct(dto);
+            setStock(getStock() + dto.getQuantity());
+        }
+        makeConsistency();
+    }
+
+    private void checkRefundProduct(ProductOrderDto dto) {
+    }
+
+    private void checkPurchaseProduct(ProductOrderDto dto) {
+        if (getStock() < dto.getQuantity())
+            throw new IllegalArgumentException("stock is not enough");
+        if (getPrice() * dto.getQuantity() != dto.getTotalPrice())
+            throw new IllegalArgumentException("total price is not consistent");
+        if (!getStatus().equals(SELL))
+            throw new IllegalArgumentException("this product is not selling");
     }
 }

@@ -175,7 +175,7 @@ class ProductControllerTest {
         result.setPrice(1000);
         result.setName("product");
 
-        given(service.update((ProductOrderRequest) any())).willReturn(result);
+        given(service.update((ProductOrderRequest) any())).willReturn(List.of(result));
         //when //then
         mockMvc.perform(MockMvcRequestBuilders.post("/order")
                         .content(objectMapper.writeValueAsString(request))
@@ -184,11 +184,11 @@ class ProductControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value("OK"))
                 .andExpect(jsonPath("$.message").value("success"))
-                .andExpect(jsonPath("$.data.code").value(100l))
-                .andExpect(jsonPath("$.data.detail").value("detail"))
-                .andExpect(jsonPath("$.data.status").value(SELL.toString()))
-                .andExpect(jsonPath("$.data.price").value(1000))
-                .andExpect(jsonPath("$.data.stock").value(100))
-                .andExpect(jsonPath("$.data.name").value("product"));
+                .andExpect(jsonPath("$.data[0].code").value(100l))
+                .andExpect(jsonPath("$.data[0].detail").value("detail"))
+                .andExpect(jsonPath("$.data[0].status").value(SELL.toString()))
+                .andExpect(jsonPath("$.data[0].price").value(1000))
+                .andExpect(jsonPath("$.data[0].stock").value(100))
+                .andExpect(jsonPath("$.data[0].name").value("product"));
     }
 }

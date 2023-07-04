@@ -1,6 +1,6 @@
 package common.request;
 
-import common.dto.OrderDetailDto;
+import common.dto.ProductOrderDto;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -10,10 +10,10 @@ import java.util.List;
 public class OrderCreateRequest implements Request{
     private Long userCode;
     private String address;
-    private List<OrderDetailDto> orderDetails = new ArrayList<>();
+    private List<ProductOrderDto> orderDetails = new ArrayList<>();
 
     public Integer getTotalPrice(){
-        return orderDetails.stream().mapToInt(OrderDetailDto::getTotalPrice).sum();
+        return orderDetails.stream().mapToInt(ProductOrderDto::getTotalPrice).sum();
     }
 
     @Override
