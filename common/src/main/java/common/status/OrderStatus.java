@@ -1,4 +1,4 @@
-package com.order.domain;
+package common.status;
 
 public enum OrderStatus {
     BEFORE_PAYMENT, COMPLETE_PAYMENT, DELIVERY, COMPLETE, RETURN, CHANGE

@@ -1,10 +1,8 @@
 package com.order.repository;
 
-import com.order.domain.Order;
-import com.order.dto.OrderDto;
-import com.order.dto.request.OrderListGetRequest;
+import common.dto.OrderDto;
+import common.request.OrderListGetRequest;
 import com.querydsl.core.types.Projections;
-import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;

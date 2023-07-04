@@ -1,6 +1,6 @@
 package com.order.api;
 
-import com.order.domain.OrderStatus;
+import common.status.OrderStatus;
 import lombok.Data;
 
 @Data

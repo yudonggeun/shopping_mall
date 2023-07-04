@@ -1,6 +1,6 @@
 package com.example.product.controller;
 
-import com.example.product.dto.ProductDto;
+import common.dto.ProductDto;
 import com.example.product.dto.request.ProductCreateRequest;
 import com.example.product.dto.request.ProductUpdateRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -15,7 +15,7 @@ import com.example.product.service.ProductService;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import static com.example.product.status.ProductSellStatus.*;
+import static common.status.ProductSellStatus.*;
 import static org.mockito.BDDMockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;

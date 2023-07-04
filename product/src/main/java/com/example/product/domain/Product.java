@@ -1,8 +1,8 @@
 package com.example.product.domain;
 
-import com.example.product.dto.ProductDto;
+import common.dto.ProductDto;
 import com.example.product.dto.request.ProductUpdateRequest;
-import com.example.product.status.ProductSellStatus;
+import common.status.ProductSellStatus;
 import common.entity.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -10,7 +10,7 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
-import static com.example.product.status.ProductSellStatus.*;
+import static common.status.ProductSellStatus.*;
 
 @Entity
 @Getter

@@ -1,15 +1,18 @@
 package com.order.domain;
 
-import com.order.dto.OrderDto;
+import common.dto.OrderDetailDto;
+import common.dto.OrderDto;
+import com.order.repository.OrderDetailRepository;
 import common.entity.BaseEntity;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.Table;
+import common.status.OrderStatus;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "Orders")
@@ -31,6 +34,16 @@ public class Order extends BaseEntity {
         this.address = address;
     }
 
+    public void setStatus(OrderStatus status) {
+        if(status == null) throw new IllegalArgumentException("order status must be required");
+        this.status = status;
+    }
+
+    public void setAddress(String address) {
+        if(address == null) throw new IllegalArgumentException("address must be required");
+        this.address = address;
+    }
+
     public OrderDto toOrderDto() {
         OrderDto dto = new OrderDto();
         dto.setCode(getId());
@@ -41,11 +54,15 @@ public class Order extends BaseEntity {
         return dto;
     }
 
-    public void setStatus(OrderStatus status) {
-        this.status = status;
+    public OrderDto toOrderDto(OrderDetailRepository repository){
+        OrderDto result = toOrderDto();
+        result.setOrderDetails(getOrderDetails(repository));
+        return result;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public List<OrderDetailDto> getOrderDetails(OrderDetailRepository repository){
+        return repository.findByOrderCode(getId())
+                .stream().map(OrderDetail::toDto)
+                .collect(Collectors.toList());
     }
 }

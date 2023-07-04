@@ -1,6 +1,6 @@
-package com.order.dto.request;
+package common.request;
 
-import com.order.dto.OrderDetailDto;
+import common.dto.OrderDetailDto;
 import lombok.Data;
 
 import java.util.ArrayList;

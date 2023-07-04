@@ -1,13 +1,10 @@
 package com.example.product.dto.request;
 
-import com.example.product.status.ProductSellStatus;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static com.example.product.status.ProductSellStatus.*;
+import static common.status.ProductSellStatus.*;
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 class ProductCreateRequestTest {
 

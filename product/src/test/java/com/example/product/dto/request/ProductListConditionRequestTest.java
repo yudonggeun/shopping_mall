@@ -1,7 +1,6 @@
 package com.example.product.dto.request;
 
-import com.example.product.status.ProductSellStatus;
-import org.assertj.core.api.Assertions;
+import common.status.ProductSellStatus;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.domain.Pageable;
@@ -9,7 +8,6 @@ import org.springframework.data.domain.Pageable;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 class ProductListConditionRequestTest {
     @DisplayName("기본 생성자로 생성시 디폴트 값을 가져야한다." +

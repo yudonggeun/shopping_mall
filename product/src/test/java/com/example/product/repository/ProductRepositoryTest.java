@@ -1,7 +1,7 @@
 package com.example.product.repository;
 
 import com.example.product.domain.Product;
-import com.example.product.status.ProductSellStatus;
+import common.status.ProductSellStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class ProductRepositoryTest {

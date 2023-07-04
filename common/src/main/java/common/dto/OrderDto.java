@@ -1,7 +1,10 @@
-package com.order.dto;
+package common.dto;
 
-import com.order.domain.OrderStatus;
+import common.status.OrderStatus;
 import lombok.Data;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 public class OrderDto {
@@ -10,4 +13,5 @@ public class OrderDto {
     private OrderStatus status;
     private Long userCode;
     private String address;
+    private List<OrderDetailDto> orderDetails = new ArrayList<>();
 }

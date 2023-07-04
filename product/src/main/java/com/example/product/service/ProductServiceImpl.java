@@ -1,7 +1,7 @@
 package com.example.product.service;
 
 import com.example.product.domain.Product;
-import com.example.product.dto.ProductDto;
+import common.dto.ProductDto;
 import com.example.product.dto.request.ProductCreateRequest;
 import com.example.product.dto.request.ProductListConditionRequest;
 import com.example.product.dto.request.ProductUpdateRequest;

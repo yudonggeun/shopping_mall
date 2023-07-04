@@ -1,6 +1,6 @@
 package com.example.product.dto.request;
 
-import com.example.product.status.ProductSellStatus;
+import common.status.ProductSellStatus;
 
 import java.util.Set;
 

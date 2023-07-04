@@ -1,4 +1,4 @@
-package com.order.dto.request;
+package common.request;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;

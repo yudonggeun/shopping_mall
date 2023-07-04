@@ -1,7 +1,7 @@
 package com.example.product.service;
 
 import com.example.product.domain.Product;
-import com.example.product.dto.ProductDto;
+import common.dto.ProductDto;
 import com.example.product.dto.request.ProductCondition;
 import com.example.product.dto.request.ProductCreateRequest;
 import com.example.product.dto.request.ProductListConditionRequest;
@@ -17,7 +17,7 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.Set;
 
-import static com.example.product.status.ProductSellStatus.*;
+import static common.status.ProductSellStatus.*;
 import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest

@@ -32,4 +32,8 @@ public class ApiResponse {
     public static ResponseEntity<ApiResponse> ok(Object data){
         return ApiResponse.responseEntity(data, HttpStatus.OK, "success");
     }
+
+    public void checkResponse() {
+        if(!code.is2xxSuccessful()) throw new RuntimeException("request is not working");
+    }
 }

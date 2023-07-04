@@ -1,6 +1,6 @@
-package com.example.product.dto;
+package common.dto;
 
-import com.example.product.status.ProductSellStatus;
+import common.status.ProductSellStatus;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;

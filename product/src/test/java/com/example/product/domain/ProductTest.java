@@ -1,15 +1,14 @@
 package com.example.product.domain;
 
-import com.example.product.dto.ProductDto;
+import common.dto.ProductDto;
 import com.example.product.dto.request.ProductUpdateRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
 
-import static com.example.product.status.ProductSellStatus.*;
+import static common.status.ProductSellStatus.*;
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 class ProductTest {
     @DisplayName("필요한 정보를 모두 제공하면 product 객체를 생성할 수 있다.")

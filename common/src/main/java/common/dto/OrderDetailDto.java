@@ -1,12 +1,10 @@
-package com.order.dto;
+package common.dto;
 
-
-import lombok.AccessLevel;
+import lombok.Data;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@Data
 public class OrderDetailDto {
 
     private Long productCode;

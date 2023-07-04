@@ -1,9 +1,9 @@
 package com.order.service;
 
 import com.order.api.OrderUpdateRequest;
-import com.order.dto.OrderDto;
-import com.order.dto.request.OrderCreateRequest;
-import com.order.dto.request.OrderListGetRequest;
+import common.dto.OrderDto;
+import common.request.OrderCreateRequest;
+import common.request.OrderListGetRequest;
 import org.springframework.data.domain.Page;
 
 public interface OrderService {

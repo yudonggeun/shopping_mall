@@ -2,7 +2,7 @@ package com.order.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.order.service.OrderService;
-import com.order.dto.request.OrderCreateRequest;
+import common.request.OrderCreateRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

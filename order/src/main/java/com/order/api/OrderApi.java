@@ -1,8 +1,8 @@
 package com.order.api;
 
-import com.order.dto.request.OrderListGetRequest;
+import common.request.OrderListGetRequest;
 import com.order.service.OrderService;
-import com.order.dto.request.OrderCreateRequest;
+import common.request.OrderCreateRequest;
 import common.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
