@@ -1,5 +1,6 @@
 package com.example.product.service;
 
+import common.request.ProductOrderRequest;
 import common.request.ProductUpdateRequest;
 import common.dto.ProductDto;
 import common.request.ProductCreateRequest;
@@ -17,4 +18,6 @@ public interface ProductService {
     ProductDto update(ProductUpdateRequest request);
 
     void delete(Long code);
+
+    ProductDto update(ProductOrderRequest request);
 }

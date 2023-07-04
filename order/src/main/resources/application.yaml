@@ -16,3 +16,5 @@ spring:
 feign:
   product:
     url: http://127.0.0.1
+    path:
+      order: /order

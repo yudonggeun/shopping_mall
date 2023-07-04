@@ -176,7 +176,7 @@ class ProductServiceImplTest {
     @Test
     void update_no_request() {
         //given //when //then
-        assertThatThrownBy(() -> service.update(null)).isInstanceOf(IllegalArgumentException.class)
+        assertThatThrownBy(() -> service.update((ProductUpdateRequest) null)).isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("if you want to update the product, must need request");
     }
 

@@ -4,6 +4,7 @@ import com.example.product.domain.Product;
 import common.dto.ProductDto;
 import common.request.ProductCreateRequest;
 import common.request.ProductListConditionRequest;
+import common.request.ProductOrderRequest;
 import common.request.ProductUpdateRequest;
 import com.example.product.repository.ProductRepository;
 import com.example.product.repository.QuerydslProductRepository;
@@ -74,5 +75,10 @@ public class ProductServiceImpl implements ProductService{
     @Override
     public void delete(Long code) {
         crudRepository.deleteById(code);
+    }
+
+    @Override
+    public ProductDto update(ProductOrderRequest request) {
+        return null;
     }
 }

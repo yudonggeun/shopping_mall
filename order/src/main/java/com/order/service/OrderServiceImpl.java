@@ -52,7 +52,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderDto create(OrderCreateRequest request) {
         request.checkValidation();
-        productClient.sendOrder(new ProductOrderRequest(request.getOrderDetails()))
+        productClient.sendOrder(ProductOrderRequest.request(request.getOrderDetails()))
                 .checkResponse();
 
         Order order = orderRepository.save(Order.builder()

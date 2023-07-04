@@ -2,6 +2,7 @@ package com.example.product.controller;
 
 import common.dto.ProductDto;
 import common.request.ProductCreateRequest;
+import common.request.ProductOrderRequest;
 import common.request.ProductUpdateRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
@@ -14,6 +15,8 @@ import org.springframework.http.MediaType;
 import com.example.product.service.ProductService;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
+import java.util.List;
 
 import static common.status.ProductSellStatus.*;
 import static org.mockito.BDDMockito.*;
@@ -114,9 +117,7 @@ class ProductControllerTest {
     @Test
     void updateProduct() throws Exception {
         //given
-        ProductUpdateRequest request = new ProductUpdateRequest();
-
-        request.setCode(100l);
+        ProductUpdateRequest request = new ProductUpdateRequest(100l);
         request.setDetail("detail");
         request.setStatus(SELL);
         request.setStock(100);
@@ -131,7 +132,7 @@ class ProductControllerTest {
         result.setPrice(1000);
         result.setName("product");
 
-        given(service.update(any())).willReturn(result);
+        given(service.update((ProductUpdateRequest) any())).willReturn(result);
         //when //then
         mockMvc.perform(MockMvcRequestBuilders.post("/detail")
                         .content(objectMapper.writeValueAsString(request))
@@ -158,5 +159,36 @@ class ProductControllerTest {
                 .andDo(print())
                 .andExpect(jsonPath("$.code").value("OK"))
                 .andExpect(jsonPath("$.message").value("success"));
+    }
+
+    @DisplayName("상품 주문 처리")
+    @Test
+    void receiveProductOrder() throws Exception {
+        //given
+        ProductOrderRequest request = ProductOrderRequest.request(List.of());
+
+        ProductDto result = new ProductDto();
+        result.setCode(100l);
+        result.setDetail("detail");
+        result.setStatus(SELL);
+        result.setStock(100);
+        result.setPrice(1000);
+        result.setName("product");
+
+        given(service.update((ProductOrderRequest) any())).willReturn(result);
+        //when //then
+        mockMvc.perform(MockMvcRequestBuilders.post("/order")
+                        .content(objectMapper.writeValueAsString(request))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value("OK"))
+                .andExpect(jsonPath("$.message").value("success"))
+                .andExpect(jsonPath("$.data.code").value(100l))
+                .andExpect(jsonPath("$.data.detail").value("detail"))
+                .andExpect(jsonPath("$.data.status").value(SELL.toString()))
+                .andExpect(jsonPath("$.data.price").value(1000))
+                .andExpect(jsonPath("$.data.stock").value(100))
+                .andExpect(jsonPath("$.data.name").value("product"));
     }
 }

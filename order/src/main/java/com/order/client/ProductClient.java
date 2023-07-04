@@ -11,6 +11,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 @FeignClient(name = "productClient", url = "${feign.product.url}")
 public interface ProductClient {
 
-    @PostMapping(path = "", produces = "application/json")
+    @PostMapping(path = "${feign.product.path.order}", produces = "application/json")
     ApiResponse sendOrder(@RequestBody ProductOrderRequest request);
 }
