@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import static java.util.stream.Collectors.*;
 
@@ -54,6 +55,7 @@ public class ProductServiceImpl implements ProductService {
 
         if (request == null)
             throw new IllegalArgumentException("if you want to register the product, must need request");
+
         Product product = Product.builder()
                 .name(request.getName())
                 .stock(request.getStock())
@@ -83,14 +85,16 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<ProductDto> update(ProductOrderRequest request) {
         Map<Long, ProductOrderDto> productOrderMap = request.getOrders().stream().collect(toMap(ProductOrderDto::getProductCode, e -> e));
-        Map<Long, Product> productMap = crudRepository.findAllByIdIn(productOrderMap.keySet()).stream()
+        Set<Long> productCodes = productOrderMap.keySet();
+        Map<Long, Product> productMap = crudRepository.findAllByIdIn(productCodes).stream()
                 .collect(toMap(Product::getId, product -> product));
 
-        for (Long code : productOrderMap.keySet()) {
+        for (Long code : productCodes) {
             if (!productMap.containsKey(code))
                 throw new IllegalArgumentException("don't input invalid product code");
             Product product = productMap.get(code);
-            product.update(productOrderMap.get(code), request.getType());
+            ProductOrderDto productOrder = productOrderMap.get(code);
+            product.update(productOrder, request.getType());
         }
 
         return productMap.values().stream().map(Product::toProductDto).toList();

@@ -1,6 +1,7 @@
 package com.example.product.controller;
 
 import common.dto.ProductDto;
+import common.dto.ProductOrderDto;
 import common.request.ProductCreateRequest;
 import common.request.ProductOrderRequest;
 import common.request.ProductUpdateRequest;
@@ -165,7 +166,8 @@ class ProductControllerTest {
     @Test
     void receiveProductOrder() throws Exception {
         //given
-        ProductOrderRequest request = ProductOrderRequest.request(List.of());
+        ProductOrderDto order1 = new ProductOrderDto(100L, 1, 1000);
+        ProductOrderRequest request = ProductOrderRequest.request(List.of(order1));
 
         ProductDto result = new ProductDto();
         result.setCode(100l);
