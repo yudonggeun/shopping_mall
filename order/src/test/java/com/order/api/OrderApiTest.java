@@ -3,6 +3,7 @@ package com.order.api;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.order.service.OrderService;
 import common.request.OrderCreateRequest;
+import common.request.OrderUpdateRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +12,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -34,7 +37,7 @@ class OrderApiTest {
         OrderCreateRequest request = new OrderCreateRequest();
 
         //when //then
-        mockMvc.perform(MockMvcRequestBuilders.put("/")
+        mockMvc.perform(put("/")
                         .content(objectMapper.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -49,7 +52,7 @@ class OrderApiTest {
         //given
         Long orderCode = 200l;
         //when //then
-        mockMvc.perform(MockMvcRequestBuilders.get("/?code=" + orderCode))
+        mockMvc.perform(get("/?code=" + orderCode))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value("OK"))
@@ -64,7 +67,7 @@ class OrderApiTest {
         int pageIndex = 0;
         int size = 10;
         //when //then
-        mockMvc.perform(MockMvcRequestBuilders.get(String.format("/list?userCode=%s&index=%d&size=%d", userCode, pageIndex, size)))
+        mockMvc.perform(get(String.format("/list?userCode=%s&index=%d&size=%d", userCode, pageIndex, size)))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value("OK"))
@@ -77,7 +80,7 @@ class OrderApiTest {
         //given
         OrderUpdateRequest request = new OrderUpdateRequest();
         //when //then
-        mockMvc.perform(MockMvcRequestBuilders.put("/")
+        mockMvc.perform(put("/")
                         .content(objectMapper.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())

@@ -1,4 +1,4 @@
-package com.order.api;
+package common.request;
 
 import common.status.OrderStatus;
 import lombok.Data;

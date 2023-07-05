@@ -1,28 +1,27 @@
 package com.user.api;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.user.service.UserService;
 import common.dto.LoginToken;
 import common.dto.UserDto;
 import common.request.UserCreateRequest;
 import common.request.UserLoginRequest;
 import common.request.UserUpdateRequest;
-import com.user.service.UserService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import static common.status.Role.*;
-import static org.mockito.BDDMockito.*;
+import static common.status.Role.NORMAL;
+import static org.mockito.BDDMockito.any;
+import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -120,6 +119,7 @@ class ApiTest {
                 .andExpect(jsonPath("$.data.email").exists())
                 .andExpect(jsonPath("$.data.role").exists());
     }
+
     @DisplayName("로그인 요청을 하면 인증 토큰이 헤더와 바디에 담겨서 전달된다.")
     @Test
     public void login() throws Exception {
@@ -138,6 +138,18 @@ class ApiTest {
                 .andExpect(jsonPath("$.code").value("OK"))
                 .andExpect(header().string("Authorization", token.toBearerToken()))
                 .andExpect(jsonPath("$.data").value(token.toBearerToken()));
+    }
+
+    @DisplayName("사용자의 요청 데이터에 따라 에러가 발생하면 4xx 코드를 반환한다.")
+    @Test
+    public void badRequest() throws Exception {
+        //given
+        given(service.get(any())).willThrow(IllegalArgumentException.class);
+        //when //then
+        mockMvc.perform(get("/?code=" + 100))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value("BAD_REQUEST"));
+
     }
 
     private UserDto testUserDto() {

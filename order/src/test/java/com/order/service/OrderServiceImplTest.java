@@ -1,17 +1,17 @@
 package com.order.service;
 
-import com.order.api.OrderUpdateRequest;
 import com.order.client.ProductClient;
 import com.order.domain.Order;
 import com.order.domain.OrderDetail;
-import common.dto.ProductOrderDto;
-import common.response.ApiResponse;
-import common.status.OrderStatus;
-import common.dto.OrderDto;
-import common.request.OrderCreateRequest;
-import common.request.OrderListGetRequest;
 import com.order.repository.OrderDetailRepository;
 import com.order.repository.OrderRepository;
+import common.dto.OrderDto;
+import common.dto.ProductOrderDto;
+import common.request.OrderCreateRequest;
+import common.request.OrderListGetRequest;
+import common.request.OrderUpdateRequest;
+import common.response.ApiResponse;
+import common.status.OrderStatus;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -24,10 +24,11 @@ import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
-import static common.response.ApiResponse.*;
-import static org.assertj.core.api.Assertions.*;
+import static common.response.ApiResponse.ok;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.*;
+import static org.mockito.BDDMockito.given;
 
 @SpringBootTest
 class OrderServiceImplTest {

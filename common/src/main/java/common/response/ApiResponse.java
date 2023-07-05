@@ -33,6 +33,10 @@ public class ApiResponse {
         return ApiResponse.responseEntity(data, HttpStatus.OK, "success");
     }
 
+    public static ResponseEntity<ApiResponse> badRequest(String message) {
+        return ApiResponse.responseEntity(null, HttpStatus.BAD_REQUEST, message);
+    }
+
     public void checkResponse() {
         if(!code.is2xxSuccessful()) throw new RuntimeException("request is not working");
     }
