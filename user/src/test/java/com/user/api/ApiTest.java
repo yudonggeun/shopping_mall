@@ -1,8 +1,11 @@
 package com.user.api;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import common.dto.LoginToken;
 import common.dto.UserDto;
 import common.request.UserCreateRequest;
+import common.request.UserLoginRequest;
 import common.request.UserUpdateRequest;
 import com.user.service.UserService;
 import org.junit.jupiter.api.DisplayName;
@@ -11,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -33,20 +37,6 @@ class ApiTest {
     ObjectMapper objectMapper;
     @MockBean
     UserService service;
-
-//    //todo
-//    @DisplayName("")
-//    @Test
-//    void create() throws Exception {
-//        //given
-//        Long userCode = 100L;
-//        //when //then
-//        mockMvc.perform(delete("/?code=" + userCode))
-//                .andDo(print())
-//                .andExpect(status().isForbidden())
-//                .andExpect(jsonPath("$.code").value("FORBIDDEN"))
-//                .andExpect(jsonPath("$.message").value("권한이 없습니다."));
-//    }
 
     @DisplayName("유저 생성 요청")
     @Test
@@ -129,6 +119,25 @@ class ApiTest {
                 .andExpect(jsonPath("$.data.phone").exists())
                 .andExpect(jsonPath("$.data.email").exists())
                 .andExpect(jsonPath("$.data.role").exists());
+    }
+    @DisplayName("로그인 요청을 하면 인증 토큰이 헤더와 바디에 담겨서 전달된다.")
+    @Test
+    public void login() throws Exception {
+        //given
+        UserLoginRequest request = new UserLoginRequest("user@test.com", "user-password");
+
+        LocalDateTime expiredAt = LocalDateTime.now().plusDays(1);
+        LoginToken token = new LoginToken(100L, "secret", "issuer", expiredAt);
+
+        given(service.login(request)).willReturn(token);
+        //when //then
+        mockMvc.perform(post("/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value("OK"))
+                .andExpect(header().string("Authorization", token.toBearerToken()))
+                .andExpect(jsonPath("$.data").value(token.toBearerToken()));
     }
 
     private UserDto testUserDto() {

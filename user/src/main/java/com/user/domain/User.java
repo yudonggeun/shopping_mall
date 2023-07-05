@@ -44,14 +44,6 @@ public class User extends BaseEntity {
         this.name = name;
     }
 
-    public void setBirth(LocalDate birth) {
-        this.birth = birth;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
     public void setPassword(String password) {
         if (password == null) throw new IllegalArgumentException("user must have a password");
         this.password = password;
@@ -70,6 +62,14 @@ public class User extends BaseEntity {
     public void setRole(Role role) {
         if (role == null) role = Role.NORMAL;
         this.role = role;
+    }
+
+    public void setBirth(LocalDate birth) {
+        this.birth = birth;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public UserDto toUserDto() {

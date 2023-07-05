@@ -1,6 +1,8 @@
 package com.user.service;
 
 import com.user.domain.User;
+import common.dto.LoginToken;
+import common.request.UserLoginRequest;
 import common.status.Role;
 import common.dto.UserDto;
 import common.dto.Authority;
@@ -148,5 +150,36 @@ class UserServiceTest {
                 .birth(LocalDate.of(2000, 2, 2))
                 .role(Role.NORMAL)
                 .build();
+    }
+
+    @DisplayName("login : 요청에 따라서 토큰 객체를 생성한다.")
+    @Test
+    public void login() {
+        //given
+        User user = getTestUser();
+        user.setEmail("user@test.com");
+        user.setPassword("user-password");
+        repository.save(user);
+
+        UserLoginRequest request = new UserLoginRequest(user.getEmail(), user.getPassword());
+        //when
+        LoginToken token = userService.login(request);
+        //then
+        assertThat(token.getUserCode()).isEqualTo(user.getId());
+    }
+
+    @DisplayName("login : 요청에 따라서 토큰 객체를 생성한다.")
+    @Test
+    public void login_not_match() {
+        //given
+        User user = getTestUser();
+        user.setEmail("user@test.com");
+        user.setPassword("user-password");
+        repository.save(user);
+
+        UserLoginRequest request = new UserLoginRequest(user.getEmail(), null);
+        //when //then
+        assertThatThrownBy(() ->  userService.login(request)).isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("password is not valid");
     }
 }

@@ -1,13 +1,18 @@
 package com.user.service;
 
 import com.user.domain.User;
+import common.dto.LoginToken;
 import common.dto.UserDto;
 import common.request.UserCreateRequest;
+import common.request.UserLoginRequest;
 import common.request.UserUpdateRequest;
 import com.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
 
 @Service
 @Transactional
@@ -15,6 +20,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    @Value("${jwt.secret}")
+    private String secret;
+    @Value("${jwt.issuer}")
+    private String issuer;
+    @Value("${jwt.duration-day}")
+    private int durationDay;
 
     @Override
     public UserDto create(UserCreateRequest request) {
@@ -58,5 +69,16 @@ public class UserServiceImpl implements UserService {
         return userRepository.findById(userCode)
                 .orElseThrow(() -> new IllegalArgumentException("not found user"))
                 .toUserDto();
+    }
+
+    @Override
+    public LoginToken login(UserLoginRequest request) {
+        User user = userRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new IllegalArgumentException("not found user"));
+
+        if (!user.getPassword().equals(request.getPassword()))
+            throw new IllegalArgumentException("password is not valid");
+
+        return new LoginToken(user.getId(), secret, issuer, LocalDateTime.now().plusDays(durationDay));
     }
 }

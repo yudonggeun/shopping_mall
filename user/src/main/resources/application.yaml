@@ -10,5 +10,10 @@ spring:
       ddl-auto: create-drop
     properties:
       hibernate:
-      # show_sql: true
-      format_sql: true
+        show_sql: true
+        format_sql: true
+
+jwt:
+  secret: test_secret
+  issuer: com.who
+  duration-day: 1
