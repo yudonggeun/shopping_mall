@@ -2,13 +2,16 @@ package com.example.product.domain;
 
 import common.dto.ProductDto;
 import common.dto.ProductOrderDto;
-import common.request.ProductUpdateRequest;
-import common.status.OrderType;
-import common.status.ProductSellStatus;
 import common.entity.BaseEntity;
+import common.request.ProductUpdateRequest;
+import common.status.ProductSellStatus;
+import common.status.orderType.OrderType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
@@ -118,13 +121,8 @@ public class Product extends BaseEntity {
         if (!getId().equals(dto.getProductCode()))
             throw new IllegalArgumentException("product code is not same with the code of request");
 
-        if (type.equals(OrderType.REQUEST)) {
-            checkPurchaseProduct(dto);
-            setStock(getStock() - dto.getQuantity());
-        } else {
-            checkRefundProduct(dto);
-            setStock(getStock() + dto.getQuantity());
-        }
+        checkPurchaseProduct(dto);
+        setStock(type.nextStock(getStock(), dto.getQuantity()));
         makeConsistency();
     }
 

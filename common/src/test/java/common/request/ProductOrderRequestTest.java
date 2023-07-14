@@ -1,13 +1,14 @@
 package common.request;
 
 import common.dto.ProductOrderDto;
-import common.status.OrderType;
+import common.status.orderType.OrderType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class ProductOrderRequestTest {
 

@@ -3,15 +3,15 @@ package com.example.product.domain;
 import common.dto.ProductDto;
 import common.dto.ProductOrderDto;
 import common.request.ProductUpdateRequest;
-import common.status.OrderType;
-import org.assertj.core.api.Assertions;
+import common.status.orderType.OrderType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
 
 import static common.status.ProductSellStatus.*;
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class ProductTest {
     @DisplayName("필요한 정보를 모두 제공하면 product 객체를 생성할 수 있다.")

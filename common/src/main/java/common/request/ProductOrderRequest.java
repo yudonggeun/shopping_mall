@@ -1,7 +1,7 @@
 package common.request;
 
 import common.dto.ProductOrderDto;
-import common.status.OrderType;
+import common.status.orderType.OrderType;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
