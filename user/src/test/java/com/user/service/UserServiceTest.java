@@ -1,14 +1,15 @@
 package com.user.service;
 
 import com.user.domain.User;
-import common.dto.LoginToken;
-import common.request.UserLoginRequest;
-import common.status.Role;
-import common.dto.UserDto;
-import common.dto.Authority;
-import common.request.UserCreateRequest;
-import common.request.UserUpdateRequest;
 import com.user.repository.UserRepository;
+import common.dto.Authority;
+import common.dto.LoginToken;
+import common.dto.UserDto;
+import common.request.UserCreateRequest;
+import common.request.UserLoginRequest;
+import common.request.UserUpdateRequest;
+import common.status.Role;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringBootTest
 class UserServiceTest {
@@ -25,6 +27,11 @@ class UserServiceTest {
     UserService userService;
     @Autowired
     UserRepository repository;
+
+    @AfterEach
+    void clean(){
+        repository.deleteAll();
+    }
 
     @DisplayName("create : 유저 생성시 request 정보가 반드시 존재해야한다.")
     @Test
