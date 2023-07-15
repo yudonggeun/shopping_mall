@@ -1,7 +1,7 @@
 package com.example.product.repository;
 
 import com.example.product.domain.Product;
-import common.status.ProductSellStatus;
+import common.status.productStatus.ProductStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,7 +11,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.List;
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.*;
+import static common.status.productStatus.ProductStatus.SELL;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringBootTest
 class ProductRepositoryTest {
@@ -24,17 +26,17 @@ class ProductRepositoryTest {
     void saveProductEntity(){
         product = repository.save(Product.builder()
                 .name("test product").detail("임시 테스트 상품")
-                .status(ProductSellStatus.SELL).stock(100)
+                .status(ProductStatus.SELL).stock(100)
                 .price(1000).build());
 
         Product product1 = Product.builder()
                 .name("test product1").detail("임시 테스트 상품")
-                .status(ProductSellStatus.SELL).stock(100)
+                .status(ProductStatus.SELL).stock(100)
                 .price(1000).build();
 
         Product product2 = Product.builder()
                 .name("test product2").detail("임시 테스트 상품")
-                .status(ProductSellStatus.SELL).stock(100)
+                .status(ProductStatus.SELL).stock(100)
                 .price(1000).build();
 
         repository.saveAll(List.of(product1, product2));
@@ -77,5 +79,30 @@ class ProductRepositoryTest {
         Optional<Product> optionalProduct = repository.findById(product.getId());
         //then
         assertThat(optionalProduct.isEmpty()).isTrue();
+    }
+
+
+    @DisplayName("name 없이 product 객체를 저장할 수 없다.")
+    @Test
+    void create_product_without_name() {
+        //given
+        Product product = Product.builder()
+                .detail("임시 테스트 상품")
+                .status(SELL).stock(100)
+                .price(1000).build();
+        // when //then
+        assertThatThrownBy(() -> repository.save(product));
+    }
+
+    @DisplayName("price 없이 product 객체를 저장할 수 없다.")
+    @Test
+    void create_product_without_price() {
+        //given
+        Product product = Product.builder()
+                .name("test product").detail("임시 테스트 상품")
+                .status(SELL).stock(100)
+                .build();
+        // when //then
+        assertThatThrownBy(() -> repository.save(product));
     }
 }

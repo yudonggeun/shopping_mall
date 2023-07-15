@@ -1,6 +1,6 @@
 package common.request;
 
-import common.status.ProductSellStatus;
+import common.status.productStatus.ProductStatus;
 import lombok.Data;
 
 @Data
@@ -9,10 +9,10 @@ public class ProductCreateRequest {
     private int price;
     private int stock;
     private String detail;
-    private ProductSellStatus status;
+    private ProductStatus status;
 
     public static ProductCreateRequest create(int price, int stock, String name, String detail,
-                                              ProductSellStatus status){
+                                              ProductStatus status){
         ProductCreateRequest request = new ProductCreateRequest();
         request.setName(name);
         request.setPrice(price);

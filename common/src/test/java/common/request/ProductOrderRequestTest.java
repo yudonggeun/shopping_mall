@@ -52,6 +52,6 @@ class ProductOrderRequestTest {
 
         //when //then
         assertThat(orders).map(orderDetailDto -> orderDetailDto.getProductCode())
-                .containsAll(request.getProductCodeList());
+                .containsAll(request.productCodeList());
     }
 }

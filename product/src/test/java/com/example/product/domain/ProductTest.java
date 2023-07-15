@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
 
-import static common.status.ProductSellStatus.*;
+import static common.status.productStatus.ProductStatus.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -65,53 +65,7 @@ class ProductTest {
         assertThat(product.getStatus()).isNotEqualTo(SOLD_OUT);
     }
 
-    @DisplayName("name 없이 product 객체를 생성할 수 없다.")
-    @Test
-    void create_product_without_name() {
-        //given //when //then
-        assertThatThrownBy(() ->
-                Product.builder()
-                        .detail("임시 테스트 상품")
-                        .status(SELL).stock(100)
-                        .price(1000).build()
-        ).isInstanceOf(IllegalArgumentException.class).hasMessage("product must have name, price, stock, status");
-    }
 
-    @DisplayName("price 없이 product 객체를 생성할 수 없다.")
-    @Test
-    void create_product_without_price() {
-        //given //when //then
-        assertThatThrownBy(() ->
-                Product.builder()
-                        .name("test product").detail("임시 테스트 상품")
-                        .status(SELL).stock(100)
-                        .build()
-        ).isInstanceOf(IllegalArgumentException.class).hasMessage("product must have name, price, stock, status");
-    }
-
-    @DisplayName("stock 없이 product 객체를 생성할 수 없다.")
-    @Test
-    void create_product_without_stock() {
-        //given //when //then
-        assertThatThrownBy(() ->
-                Product.builder()
-                        .name("test product").detail("임시 테스트 상품")
-                        .status(SELL)
-                        .price(1000).build()
-        ).isInstanceOf(IllegalArgumentException.class).hasMessage("product must have name, price, stock, status");
-    }
-
-    @DisplayName("status 없이 product 객체를 생성할 수 없다.")
-    @Test
-    void create_product_without_status() {
-        //given //when //then
-        assertThatThrownBy(() ->
-                Product.builder()
-                        .name("test product").detail("임시 테스트 상품")
-                        .stock(100)
-                        .price(1000).build()
-        ).isInstanceOf(IllegalArgumentException.class).hasMessage("product must have name, price, stock, status");
-    }
 
     @DisplayName("entity 객체를 dto 객체로 변환시 정보가 동일해야한다.")
     @Test

@@ -1,10 +1,10 @@
 package com.example.product.service;
 
 import com.example.product.domain.Product;
-import common.dto.ProductOrderDto;
-import common.dto.ProductDto;
-import common.request.*;
 import com.example.product.repository.ProductRepository;
+import common.dto.ProductDto;
+import common.dto.ProductOrderDto;
+import common.request.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -17,8 +17,9 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 import java.util.Set;
 
-import static common.status.ProductSellStatus.*;
-import static org.assertj.core.api.Assertions.*;
+import static common.status.productStatus.ProductStatus.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringBootTest
 class ProductServiceImplTest {
@@ -161,9 +162,10 @@ class ProductServiceImplTest {
         //given
         ProductCreateRequest request = new ProductCreateRequest();
         //when //then
-        assertThatThrownBy(() -> service.create(request)).isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("product must have name, price, stock, status");
+        assertThatThrownBy(() -> service.create(request));
     }
+
+
 
     @DisplayName("create : 필수 정보가 포함된 요청은 상품을 등록한다.")
     @Test

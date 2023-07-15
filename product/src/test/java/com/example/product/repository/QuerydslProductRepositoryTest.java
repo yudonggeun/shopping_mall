@@ -3,7 +3,6 @@ package com.example.product.repository;
 import com.example.product.domain.Product;
 import common.request.ProductCondition;
 import common.request.ProductListConditionRequest;
-
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -16,8 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Set;
 
-import static common.status.ProductSellStatus.*;
-import static org.assertj.core.api.Assertions.*;
+import static common.status.productStatus.ProductStatus.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @Transactional

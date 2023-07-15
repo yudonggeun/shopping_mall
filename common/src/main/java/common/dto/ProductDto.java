@@ -1,6 +1,6 @@
 package common.dto;
 
-import common.status.ProductSellStatus;
+import common.status.productStatus.ProductStatus;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -16,7 +16,7 @@ public class ProductDto {
     private int price;
     private int stock;
     private String detail;
-    private ProductSellStatus status;
+    private ProductStatus status;
     private LocalDateTime regDate;
     private LocalDateTime updateDate;
 }

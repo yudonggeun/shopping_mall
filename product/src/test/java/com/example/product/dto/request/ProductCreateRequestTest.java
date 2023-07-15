@@ -4,8 +4,8 @@ import common.request.ProductCreateRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static common.status.ProductSellStatus.*;
-import static org.assertj.core.api.Assertions.*;
+import static common.status.productStatus.ProductStatus.SELL;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class ProductCreateRequestTest {
 

@@ -33,7 +33,7 @@ public class ProductOrderRequest implements Request{
         this.orders = orders;
     }
 
-    public List<Long> getProductCodeList() {
+    public List<Long> productCodeList() {
         return orders.stream().map(ProductOrderDto::getProductCode).toList();
     }
 }

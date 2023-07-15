@@ -1,6 +1,6 @@
 package common.request;
 
-import common.status.ProductSellStatus;
+import common.status.productStatus.ProductStatus;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,7 +12,7 @@ public class ProductUpdateRequest {
     private Integer price;
     private Integer stock;
     private String detail;
-    private ProductSellStatus status;
+    private ProductStatus status;
 
     public ProductUpdateRequest(Long code) {
         this.code = code;

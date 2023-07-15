@@ -1,9 +1,9 @@
 package common.request;
 
-import common.status.ProductSellStatus;
+import common.status.productStatus.ProductStatus;
 
 import java.util.Set;
 
-public record ProductCondition(Set<ProductSellStatus> status) {
-    public static final ProductCondition DEFAULT = new ProductCondition(Set.of(ProductSellStatus.SELL));
+public record ProductCondition(Set<ProductStatus> status) {
+    public static final ProductCondition DEFAULT = new ProductCondition(Set.of(ProductStatus.SELL));
 }

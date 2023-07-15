@@ -4,8 +4,8 @@ import common.dto.ProductDto;
 import common.dto.ProductOrderDto;
 import common.entity.BaseEntity;
 import common.request.ProductUpdateRequest;
-import common.status.ProductSellStatus;
 import common.status.orderType.OrderType;
+import common.status.productStatus.ProductStatus;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import lombok.AccessLevel;
@@ -15,8 +15,6 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-import static common.status.ProductSellStatus.*;
-
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -24,19 +22,15 @@ public class Product extends BaseEntity {
     @Column(nullable = false)
     private String name;
     @Column(nullable = false)
-    private int price;
+    private Integer price;
     @Column(nullable = false)
-    private int stock;
+    private Integer stock;
     private String detail;
     @Column(nullable = false)
-    private ProductSellStatus status = HIDE;
+    private ProductStatus status;
 
     @Builder
-    private Product(String name, Integer price, Integer stock, String detail, ProductSellStatus status) {
-        //check parameter constrain
-        if (name == null || price == null || stock == null || status == null)
-            throw new IllegalArgumentException("product must have name, price, stock, status");
-
+    private Product(String name, Integer price, Integer stock, String detail, ProductStatus status) {
         setName(name);
         setPrice(price);
         setStock(stock);
@@ -50,7 +44,7 @@ public class Product extends BaseEntity {
      * recommend to use builder, this constructor is used in test code
      */
     @Deprecated
-    public Product(Long id, LocalDateTime createdAt, String name, Integer price, Integer stock, String detail, ProductSellStatus status) {
+    public Product(Long id, LocalDateTime createdAt, String name, Integer price, Integer stock, String detail, ProductStatus status) {
         super(id, createdAt, createdAt);
         setName(name);
         setPrice(price);
@@ -89,8 +83,7 @@ public class Product extends BaseEntity {
     }
 
     private void makeConsistency() {
-        if (this.stock == 0 && getStatus().equals(SELL)) setStatus(SOLD_OUT);
-        if (this.stock > 0 && getStatus().equals(SOLD_OUT)) setStatus(SELL);
+        setStatus(status.getValidStatus(stock));
     }
 
     private void setName(String name) {
@@ -113,28 +106,19 @@ public class Product extends BaseEntity {
         if (detail != null) this.detail = detail;
     }
 
-    private void setStatus(ProductSellStatus status) {
+    private void setStatus(ProductStatus status) {
         if (status != null) this.status = status;
     }
 
-    public void update(ProductOrderDto dto, OrderType type) {
-        if (!getId().equals(dto.getProductCode()))
+    public void update(ProductOrderDto order, OrderType orderType) {
+        if (!getId().equals(order.getProductCode()))
             throw new IllegalArgumentException("product code is not same with the code of request");
-
-        checkPurchaseProduct(dto);
-        setStock(type.nextStock(getStock(), dto.getQuantity()));
-        makeConsistency();
-    }
-
-    private void checkRefundProduct(ProductOrderDto dto) {
-    }
-
-    private void checkPurchaseProduct(ProductOrderDto dto) {
-        if (getStock() < dto.getQuantity())
-            throw new IllegalArgumentException("stock is not enough");
-        if (getPrice() * dto.getQuantity() != dto.getTotalPrice())
+        if (getPrice() * order.getQuantity() != order.getTotalPrice())
             throw new IllegalArgumentException("total price is not consistent");
-        if (!getStatus().equals(SELL))
-            throw new IllegalArgumentException("this product is not selling");
+
+        orderType.checkWhetherItCanProceedAt(getStatus());
+        setStock(orderType.nextStock(getStock(), order.getQuantity()));
+
+        makeConsistency();
     }
 }

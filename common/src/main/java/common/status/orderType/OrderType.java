@@ -1,8 +1,24 @@
 package common.status.orderType;
 
-public interface OrderType {
+import common.status.productStatus.ProductStatus;
 
-    OrderType REQUEST = new RequestOrderType();
-    OrderType CANCEL = new CancelOrderType();
-    int nextStock(int currentStock, int orderQuantity);
+public enum OrderType implements OrderTypeFunctionSet {
+
+    REQUEST(new RequestOrderType()),
+    CANCEL(new CancelOrderType());
+
+    OrderType(OrderTypeFunctionSet functions) {
+        this.functions = functions;
+    }
+
+    private OrderTypeFunctionSet functions;
+
+    public int nextStock(int currentStock, int orderQuantity) {
+        return functions.nextStock(currentStock, orderQuantity);
+    }
+
+    @Override
+    public void checkWhetherItCanProceedAt(ProductStatus status) {
+        functions.checkWhetherItCanProceedAt(status);
+    }
 }

@@ -1,11 +1,12 @@
 package com.example.product.controller;
 
+import com.example.product.service.ProductService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import common.dto.ProductDto;
 import common.dto.ProductOrderDto;
 import common.request.ProductCreateRequest;
 import common.request.ProductOrderRequest;
 import common.request.ProductUpdateRequest;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,16 +14,17 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import com.example.product.service.ProductService;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.List;
 
-import static common.status.ProductSellStatus.*;
-import static org.mockito.BDDMockito.*;
+import static common.status.productStatus.ProductStatus.SELL;
+import static org.mockito.BDDMockito.any;
+import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
